@@ -1,6 +1,5 @@
 # Sits on top of two TrainWheels to move along a Track
-class_name TrainVehicle
-extends Node2D
+class_name TrainVehicle extends Node2D
 
 signal towed_mass_changed(mass_delta: float)
 

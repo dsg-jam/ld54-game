@@ -1,5 +1,4 @@
-class_name TrackJunction
-extends Area2D
+class_name TrackJunction extends Area2D
 
 @export var parent: NodePath
 @export var side: Track.Directions
