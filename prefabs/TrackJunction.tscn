@@ -5,6 +5,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_fb8j6"]
 
 [node name="TrackJunction" type="Area2D" groups=["track_junctions"]]
+collision_layer = 16
+collision_mask = 16
 script = ExtResource("1_w16ft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

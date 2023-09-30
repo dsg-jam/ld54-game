@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bwresqdpylkai" path="res://assets/train_car.png" id="3_0sagh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cdjcq"]
+resource_local_to_scene = true
 size = Vector2(88, 20)
 
 [node name="TrainVehicle" type="Node2D"]
@@ -17,8 +18,8 @@ script = ExtResource("2")
 [node name="Body" type="Node2D" parent="."]
 z_index = 10
 
-[node name="Area2D" type="Area2D" parent="Body"]
-monitorable = false
+[node name="Area2D" type="Area2D" parent="Body" groups=["train_vehicle"]]
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Area2D"]
 position = Vector2(29, 0)

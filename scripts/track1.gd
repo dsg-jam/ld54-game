@@ -1,6 +1,6 @@
 extends Node
 
-@export var car_count = 4
+@export var car_count = 25
 
 @onready var train_vehicle_reference = load("res://prefabs/TrainVehicle.tscn")
 @onready var engine = $TrainEngine

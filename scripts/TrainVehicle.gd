@@ -30,6 +30,8 @@ func add_to_track(track: Path2D, offset: float = 1) -> void:
 
 # Link another TrainVehicle to follow this one
 func set_follower_car(car: TrainVehicle) -> void:
+	car.front_wheel.collision_area.monitoring = false
+	self.back_wheel.collision_area.monitoring = false
 	car.add_to_track(self.back_wheel.current_track)
 	car.front_wheel.follow(self.back_wheel, self.follow_distance)
 	car.back_wheel.follow(car.front_wheel, car.wheel_distance)
