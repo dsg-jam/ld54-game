@@ -86,7 +86,7 @@ loop = false
 
 [node name="TrackJunction" parent="LeftTrack/HeadPoint" instance=ExtResource("4_umyy3")]
 parent = NodePath("../..")
-side = "head"
+side = 2
 
 [node name="TailPoint" type="PathFollow2D" parent="LeftTrack"]
 position = Vector2(128, -32)
@@ -96,7 +96,6 @@ loop = false
 
 [node name="TrackJunction" parent="LeftTrack/TailPoint" instance=ExtResource("4_umyy3")]
 parent = NodePath("../..")
-side = "left"
 
 [node name="TrackLine" type="Line2D" parent="LeftTrack"]
 z_index = 2
@@ -138,7 +137,7 @@ loop = false
 
 [node name="TrackJunction" parent="RightTrack/HeadPoint" instance=ExtResource("4_umyy3")]
 parent = NodePath("../..")
-side = "head"
+side = 2
 
 [node name="TailPoint" type="PathFollow2D" parent="RightTrack"]
 position = Vector2(128, 32)
@@ -148,7 +147,7 @@ loop = false
 
 [node name="TrackJunction" parent="RightTrack/TailPoint" instance=ExtResource("4_umyy3")]
 parent = NodePath("../..")
-side = "tail"
+side = 1
 
 [node name="TrackLine" type="Line2D" parent="RightTrack"]
 z_index = 2
@@ -159,7 +158,7 @@ texture_mode = 1
 
 [node name="Pointer" type="PathFollow2D" parent="RightTrack"]
 z_index = 2
-position = Vector2(63.988, 15.9924)
+position = Vector2(63.9881, 15.9924)
 rotation = 0.591495
 progress = 66.7532
 
@@ -173,6 +172,7 @@ offset_right = 44.0
 offset_bottom = -24.0
 rotation = 1.5708
 pivot_offset = Vector2(38, 24)
+focus_mode = 0
 theme = SubResource("Theme_nwi6f")
 button_pressed = true
 keep_pressed_outside = true
