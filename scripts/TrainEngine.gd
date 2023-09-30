@@ -2,37 +2,37 @@
 class_name TrainEngine
 extends TrainVehicle
 
-signal train_info
+signal train_info(info: Dictionary)
 
-@export var max_force = 1000
-@export var gravity = 9.8
-@export var friction_coefficient = 0.1
-@export var rolling_resistance_coefficient = 0.005
-@export var air_resistance_coefficient = 0.10
-@export var air_density = 1.0
-@export var velocity_multiplier = 1.5
-@export var brake_power = 12
-@export var brake_application_speed = 5
+@export var max_force: float = 1000
+@export var gravity: float = 9.8
+@export var friction_coefficient: float = 0.1
+@export var rolling_resistance_coefficient: float = 0.005
+@export var air_resistance_coefficient: float = 0.10
+@export var air_density: float = 1.0
+@export var velocity_multiplier: float = 1.5
+@export var brake_power: float = 12
+@export var brake_application_speed: float = 5
 
-var friction_force
-var target_force_percent = 0
-var applied_force = 0
-var brake_force = 0
-var velocity = 0
+var friction_force: float
+var target_force_percent: float = 0
+var applied_force: float = 0
+var brake_force: float = 0
+var velocity: float = 0
 
-func _ready():
-	_update_frictions()
+func _ready() -> void:
+	self._update_frictions()
 
 # Update the friction forces that depend on mass when the towed mass changes
-func change_towed_mass(mass_delta):
+func change_towed_mass(mass_delta: float) -> void:
 	super.change_towed_mass(mass_delta)
-	_update_frictions()
+	self._update_frictions()
 
 # Emit a signal to update the HUD
-func _process(delta):
-	_update_throttle(delta)
-	_update_brake(delta)
-	emit_signal("train_info", {
+func _process(delta: float) -> void:
+	self._update_throttle(delta)
+	self._update_brake(delta)
+	self.train_info.emit({
 		"throttle": target_force_percent,
 		"force_applied": applied_force,
 		"force_max": max_force,
@@ -40,64 +40,64 @@ func _process(delta):
 		"total_mass": total_mass,
 		"velocity": velocity,
 		"friction": friction_force,
-		"drag": _drag_force(),
+		"drag": self._drag_force(),
 	})
 
 # Apply forces
-func _physics_process(delta):
-	_updated_applied_force(delta)
-	if velocity != 0 or applied_force != 0:
-		_move_with_friction(delta)
+func _physics_process(delta: float) -> void:
+	self._updated_applied_force(delta)
+	if self.velocity != 0 or self.applied_force != 0:
+		self._move_with_friction(delta)
 
 # Set the "throttle lever" position
-func _update_throttle(delta):
+func _update_throttle(delta: float) -> void:
 	if Input.is_action_pressed("speed_up"):
-		target_force_percent = min(target_force_percent + delta/10, 1)
+		self.target_force_percent = min(self.target_force_percent + delta / 10, 1)
 	elif Input.is_action_pressed("slow_down"):
-		target_force_percent = max(target_force_percent - delta/10, -1)
+		self.target_force_percent = max(self.target_force_percent - delta / 10, -1)
 	elif Input.is_action_pressed("cut_throttle"):
-		target_force_percent = 0
+		self.target_force_percent = 0
 
 # Set the percent of the total force with which the brake is being applied
-func _update_brake(delta):
+func _update_brake(delta: float) -> void:
 	if Input.is_action_pressed("brake"):
-		brake_force = clamp(brake_force + brake_application_speed * delta, 0, 1)
-	elif brake_force > 0:
-		brake_force = clamp(brake_force - brake_application_speed * delta, 0, 1)
+		self.brake_force = clamp(self.brake_force + self.brake_application_speed * delta, 0, 1)
+	elif self.brake_force > 0:
+		self.brake_force = clamp(self.brake_force - self.brake_application_speed * delta, 0, 1)
 
 # Move the front wheel by the applied force, minus friction forces
-func _move_with_friction(delta):
-	var resistance = friction_force + _drag_force()
-	if applied_force == 0 && abs(velocity) < resistance / total_mass * delta:
-		velocity = 0
+func _move_with_friction(delta: float) -> void:
+	var resistance := self.friction_force + self._drag_force()
+	if self.applied_force == 0 && abs(self.velocity) < self.resistance / self.total_mass * self.delta:
+		self.velocity = 0
 	else:
-		if velocity > 0:
-			velocity = velocity + ((applied_force - resistance) / total_mass * delta)
-		elif velocity < 0:
-			velocity = velocity + ((applied_force + resistance) / total_mass * delta)
+		if self.velocity > 0:
+			self.velocity = self.velocity + ((self.applied_force - self.resistance) / self.total_mass * self.delta)
+		elif self.velocity < 0:
+			self.velocity = self.velocity + ((self.applied_force + self.resistance) / self.total_mass * self.delta)
 		else:
-			velocity = velocity + (applied_force / total_mass * delta)
-	_apply_brake(delta)
-	front_wheel.move(velocity * velocity_multiplier * delta)
+			self.velocity = self.velocity + (self.applied_force / self.total_mass * self.delta)
+	self._apply_brake(delta)
+	self.front_wheel.move(self.velocity * self.velocity_multiplier * delta)
 
 # Lerp the actual engine force from its current value to the throttle position
-func _updated_applied_force(delta):
-	applied_force = lerp(float(applied_force), float(max_force * target_force_percent), delta)
-	if abs(applied_force) < 0.1: applied_force = 0
+func _updated_applied_force(delta: float) -> void:
+	self.applied_force = lerp(float(self.applied_force), float(self.max_force * self.target_force_percent), delta)
+	if abs(self.applied_force) < 0.1: self.applied_force = 0
 
 # Recalculate the velocity-independent friction forces for the current mass
-func _update_frictions():
-	friction_force = friction_coefficient * total_mass * gravity
-	friction_force += rolling_resistance_coefficient * total_mass * gravity
+func _update_frictions() -> void:
+	self.friction_force = self.friction_coefficient * self.total_mass * self.gravity
+	self.friction_force += self.rolling_resistance_coefficient * self.total_mass * self.gravity
 
 # The air resistance force
-func _drag_force():
-	return (air_resistance_coefficient * air_density * (pow(velocity,2)/2))
+func _drag_force() -> float:
+	return (self.air_resistance_coefficient * self.air_density * (pow(self.velocity,2)/2))
 
 # Reduce the velocity based on applied brake power
-func _apply_brake(delta):
-	if velocity == 0: return
-	elif velocity > 0:
-		velocity = max(velocity - brake_force * brake_power * delta, 0)
-	elif velocity < 0:
-		velocity = min(velocity + brake_force * brake_power * delta, 0)
+func _apply_brake(delta: float) -> void:
+	if self.velocity == 0: return
+	elif self.velocity > 0:
+		self.velocity = max(self.velocity - self.brake_force * self.brake_power * self.delta, 0)
+	elif self.velocity < 0:
+		self.velocity = min(self.velocity + self.brake_force * self.brake_power * self.delta, 0)
