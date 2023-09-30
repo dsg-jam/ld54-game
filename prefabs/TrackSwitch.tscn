@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bm5dq3lcopsvl"]
+[gd_scene load_steps=12 format=3 uid="uid://bm5dq3lcopsvl"]
 
 [ext_resource type="Script" path="res://scripts/TrackSwitch.gd" id="1_ucgph"]
 [ext_resource type="PackedScene" uid="uid://d1xy67euifbh6" path="res://prefabs/Track.tscn" id="2_e5vto"]
@@ -6,19 +6,44 @@
 [ext_resource type="Texture2D" uid="uid://bk10alqlk6ie2" path="res://assets/switch_left.png" id="4_xc4rb"]
 [ext_resource type="Texture2D" uid="uid://cfj6l27udpvr7" path="res://assets/arrow.png" id="6_nflxo"]
 
-[sub_resource type="Curve2D" id="Curve2D_02amf"]
+[sub_resource type="Curve2D" id="Curve2D_tfmj6"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -24.017, 16.005, 24.017, -16.005, 64, -16, 0, 0, 0, 0, 128, -32)
 }
 point_count = 3
 
-[sub_resource type="Curve2D" id="Curve2D_liti6"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_hyu12"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_m32f0"]
+resource_local_to_scene = true
+instance_count = 13
+mesh = SubResource("ArrayMesh_hyu12")
+buffer = PackedFloat32Array(0.99808, 0.0619333, 0, 4.99647, -0.0619333, 0.99808, 0, -0.176236, 0.992584, 0.121559, 0, 14.9636, -0.121559, 0.992584, 0, -0.961502, 0.98391, 0.178663, 0, 24.872, -0.178663, 0.98391, 0, -2.30135, 0.969346, 0.2457, 0, 34.6786, -0.2457, 0.969346, 0, -4.24865, 0.94496, 0.327186, 0, 44.3185, -0.327186, 0.94496, 0, -6.89664, 0.901405, 0.432977, 0, 53.6711, -0.432977, 0.901405, 0, -10.4225, 0.847395, 0.530963, 0, 62.5187, -0.530963, 0.847395, 0, -15.0622, 0.910454, 0.413611, 0, 71.1488, -0.413611, 0.910454, 0, -20.1015, 0.949217, 0.314623, 0, 80.3623, -0.314623, 0.949217, 0, -23.9742, 0.971893, 0.235421, 0, 89.9171, -0.235421, 0.971893, 0, -26.9124, 0.985566, 0.169291, 0, 99.6749, -0.169291, 0.985566, 0, -29.0903, 0.993711, 0.111974, 0, 109.553, -0.111974, 0.993711, 0, -30.6376, 0.99852, 0.054383, 0, 119.503, -0.054383, 0.99852, 0, -31.6189)
+
+[sub_resource type="Curve2D" id="Curve2D_u1fsi"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -23.902, -16.064, 23.902, 16.064, 64, 16, 0, 0, 0, 0, 128, 32)
 }
 point_count = 3
+
+[sub_resource type="MultiMesh" id="MultiMesh_pixd6"]
+resource_local_to_scene = true
+instance_count = 13
+mesh = SubResource("ArrayMesh_hyu12")
+buffer = PackedFloat32Array(0.998161, -0.0606213, 0, 4.9967, 0.0606213, 0.998161, 0, 0.169378, 0.992717, -0.120468, 0, 14.9649, 0.120468, 0.992717, 0, 0.941638, 0.984055, -0.177863, 0, 24.8746, 0.177863, 0.984055, 0, 2.27142, 0.969439, -0.245334, 0, 34.6825, 0.245334, 0.969439, 0, 4.21167, 0.944761, -0.32776, 0, 44.323, 0.32776, 0.944761, 0, 6.85753, 0.90068, -0.434483, 0, 53.6727, 0.434483, 0.90068, 0, 10.3906, 0.845464, -0.534033, 0, 62.5102, 0.534033, 0.845464, 0, 15.0492, 0.909689, -0.415289, 0, 71.1239, 0.415289, 0.909689, 0, 20.116, 0.949047, -0.315133, 0, 80.3316, 0.315133, 0.949047, 0, 24.0021, 0.971927, -0.235281, 0, 89.8854, 0.235281, 0.971927, 0, 26.9434, 0.985684, -0.168601, 0, 99.6439, 0.168601, 0.985684, 0, 29.1182, 0.993824, -0.110965, 0, 109.523, 0.110965, 0.993824, 0, 30.6578, 0.998585, -0.0531809, 0, 119.475, 0.0531809, 0.998585, 0, 31.6286)
 
 [sub_resource type="Theme" id="Theme_nwi6f"]
 CheckButton/icons/checked = ExtResource("3_nu1m2")
@@ -28,7 +53,10 @@ CheckButton/icons/unchecked = ExtResource("4_xc4rb")
 script = ExtResource("1_ucgph")
 
 [node name="LeftTrack" parent="." instance=ExtResource("2_e5vto")]
-curve = SubResource("Curve2D_02amf")
+curve = SubResource("Curve2D_tfmj6")
+
+[node name="MultiMeshInstance2D" parent="LeftTrack" index="1"]
+multimesh = SubResource("MultiMesh_m32f0")
 
 [node name="HeadPoint" parent="LeftTrack" index="2"]
 rotation = -0.244979
@@ -56,7 +84,10 @@ texture = ExtResource("6_nflxo")
 
 [node name="RightTrack" parent="." instance=ExtResource("2_e5vto")]
 z_index = 1
-curve = SubResource("Curve2D_liti6")
+curve = SubResource("Curve2D_u1fsi")
+
+[node name="MultiMeshInstance2D" parent="RightTrack" index="1"]
+multimesh = SubResource("MultiMesh_pixd6")
 
 [node name="HeadPoint" parent="RightTrack" index="2"]
 rotation = 0.244979
