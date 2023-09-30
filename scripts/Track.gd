@@ -6,6 +6,13 @@ extends Path2D
 signal wheel_at_head
 signal wheel_at_tail
 
+enum Directions {
+	LEFT,
+	RIGHT,
+	HEAD,
+	TAIL,
+}
+
 const TRACK_LINE_POINTS: int = 56
 
 @export var crosstie_distance = 10
@@ -20,6 +27,28 @@ func _ready():
 func _draw_line():
 	for i in range(TRACK_LINE_POINTS):
 		self._track_line.add_point(Vector2((256.0/float(TRACK_LINE_POINTS)) * float(i), 0.0))
+
+
+func wheel_at_signal(dir: Directions) -> Signal:
+	match dir:
+		Directions.HEAD:
+			return self.wheel_at_head
+		Directions.TAIL:
+			return self.wheel_at_tail
+		_:
+			push_error("invalid direction for track wheel")
+			return Signal()
+
+func enter_from_callable(dir: Directions) -> Callable:
+	match dir:
+		Directions.HEAD:
+			return self.enter_from_head
+		Directions.TAIL:
+			return self.enter_from_tail
+		_:
+			push_error("invalid direction for track enter")
+			return Callable()
+
 
 # Connect the "from_side" of this track to the "to_side" of the other track
 #
