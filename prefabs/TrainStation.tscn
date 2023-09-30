@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctghq2lknpslx"]
+
+[ext_resource type="Script" path="res://scripts/TrainStation.gd" id="1_c6ixw"]
+[ext_resource type="PackedScene" uid="uid://d1xy67euifbh6" path="res://prefabs/Track.tscn" id="1_pb151"]
+[ext_resource type="Texture2D" uid="uid://bb544qs74gbdt" path="res://assets/station.png" id="2_ysqsg"]
+
+[sub_resource type="Curve2D" id="Curve2D_7h8le"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 300, 0)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhstt"]
+size = Vector2(300, 85)
+
+[node name="TrainStation" type="Node2D"]
+script = ExtResource("1_c6ixw")
+
+[node name="Track" parent="." instance=ExtResource("1_pb151")]
+curve = SubResource("Curve2D_7h8le")
+
+[node name="Station" type="Sprite2D" parent="."]
+z_index = 100
+position = Vector2(150, 45)
+scale = Vector2(1.15, 1.15)
+texture = ExtResource("2_ysqsg")
+
+[node name="Area2D" type="Area2D" parent="." groups=["train_station"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(150, 0)
+shape = SubResource("RectangleShape2D_fhstt")
