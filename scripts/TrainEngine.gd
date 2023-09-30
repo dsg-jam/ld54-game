@@ -102,3 +102,7 @@ func _apply_brake(delta: float) -> void:
 		self.velocity = max(self.velocity - self.brake_force * self.brake_power * delta, 0)
 	elif self.velocity < 0:
 		self.velocity = min(self.velocity + self.brake_force * self.brake_power * delta, 0)
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	pass # Replace with function body.

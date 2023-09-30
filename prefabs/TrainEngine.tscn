@@ -20,3 +20,5 @@ brake_application_speed = 5.0
 
 [node name="TextureRect" parent="Body/Node2D2" index="0"]
 texture = ExtResource("3_unrkn")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
