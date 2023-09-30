@@ -33,7 +33,7 @@ func _update_checkbutton() -> void:
 # Connect the "from_side" of this track to the "to_side" of the other track
 #
 # This links both tracks to each other, so only call it once per connection
-func link_track(other_track: Track, from_side: Track.Directions, to_side: Track.Directions) -> void:
+func link_track(other_track, from_side: Track.Directions, to_side: Track.Directions) -> void:
 	self.wheel_at_signal(from_side).connect(other_track.enter_from_callable(to_side))
 	other_track.wheel_at_signal(to_side).connect(self.enter_from_callable(from_side))
 
