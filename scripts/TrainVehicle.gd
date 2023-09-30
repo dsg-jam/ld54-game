@@ -13,6 +13,7 @@ var total_mass: float = mass
 @onready var front_wheel: TrainWheel = $RailFollower
 @onready var back_wheel: TrainWheel = $RailFollower2
 @onready var body: Node2D = $Body
+@onready var _body_texture_rect: TextureRect = $Body/Node2D2/TextureRect
 
 func _ready() -> void:
 	self.front_wheel.moved.connect(self.back_wheel.move_as_follower)
@@ -28,8 +29,12 @@ func add_to_track(track: Path2D, offset: float = 1) -> void:
 	self.back_wheel.follow(self.front_wheel, self.wheel_distance)
 	self.global_position = self.front_wheel.global_position
 
+func set_color(color: Color) -> void:
+	self._body_texture_rect.modulate = color
+
 # Link another TrainVehicle to follow this one
 func set_follower_car(car: TrainVehicle) -> void:
+	car.set_color(self._body_texture_rect.modulate);
 	car.front_wheel.collision_area.monitoring = false
 	self.back_wheel.collision_area.monitoring = false
 	car.add_to_track(self.back_wheel.current_track)

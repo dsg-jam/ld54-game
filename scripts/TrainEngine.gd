@@ -4,6 +4,7 @@ class_name TrainEngine extends TrainVehicle
 signal train_info(info: Dictionary)
 signal entered_station(station: TrainStation)
 
+@export var color: Color
 @export var max_force: float = 1000
 @export var gravity: float = 9.8
 @export var friction_coefficient: float = 0.1
@@ -33,6 +34,7 @@ var brake_force: float = 0
 var velocity: float = 0
 
 func _ready() -> void:
+	self.set_color(self.color)
 	super._ready()
 	self.front_wheel.new_track_entered.connect(_on_track_entered)
 	self._update_frictions()

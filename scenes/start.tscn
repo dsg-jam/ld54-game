@@ -103,8 +103,10 @@ point_count = 4
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_31lvk")
+car_count = 4
 
 [node name="TrainEngine" parent="." instance=ExtResource("2_ee1j8")]
+color = Color(0, 0.698039, 1, 1)
 
 [node name="Tracks" type="Node2D" parent="."]
 
@@ -201,7 +203,7 @@ train = NodePath("../TrainEngine")
 
 [node name="TrainRouteStop" parent="TrainRoute" node_paths=PackedStringArray("station") instance=ExtResource("7_hql3n")]
 station = NodePath("../../TrainStation")
-delay = 10.0
+delay = 40.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
