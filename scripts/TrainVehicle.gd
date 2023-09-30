@@ -24,7 +24,6 @@ func _process(_delta: float) -> void:
 # Place this vehicle (and all of its wheels) on the track
 func add_to_track(track: Path2D, offset: float = 1) -> void:
 	self.front_wheel.set_track(track)
-	self.back_wheel.set_track(track)
 	self.front_wheel.progress = offset
 	self.back_wheel.follow(self.front_wheel, self.wheel_distance)
 	self.global_position = self.front_wheel.global_position

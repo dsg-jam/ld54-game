@@ -20,6 +20,7 @@ var brake_force: float = 0
 var velocity: float = 0
 
 func _ready() -> void:
+	super._ready()
 	self._update_frictions()
 
 # Update the friction forces that depend on mass when the towed mass changes
@@ -29,6 +30,7 @@ func change_towed_mass(mass_delta: float) -> void:
 
 # Emit a signal to update the HUD
 func _process(delta: float) -> void:
+	super._process(delta)
 	self._update_throttle(delta)
 	self._update_brake(delta)
 	self.train_info.emit({
@@ -67,7 +69,7 @@ func _update_brake(delta: float) -> void:
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
 	var resistance := self.friction_force + self._drag_force()
-	if self.applied_force == 0 && abs(self.velocity) < self.resistance / self.total_mass * delta:
+	if self.applied_force == 0 && abs(self.velocity) < resistance / self.total_mass * delta:
 		self.velocity = 0
 	else:
 		if self.velocity > 0:
