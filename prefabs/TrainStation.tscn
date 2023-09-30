@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b45ccffmet4ol" path="res://assets/icon.svg" id="4_ux61d"]
 [ext_resource type="Texture2D" uid="uid://c2udkkfuwbis0" path="res://assets/warn.png" id="5_evrpx"]
 
-[sub_resource type="Curve2D" id="Curve2D_oqouo"]
+[sub_resource type="Curve2D" id="Curve2D_ohbro"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 300, 0)
@@ -58,7 +58,7 @@ script = ExtResource("1_g3ngn")
 metadata/_edit_lock_ = true
 
 [node name="Track" parent="." instance=ExtResource("1_pb151")]
-curve = SubResource("Curve2D_oqouo")
+curve = SubResource("Curve2D_ohbro")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(150, 0)
