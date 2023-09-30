@@ -1,0 +1,182 @@
+[gd_scene load_steps=16 format=3 uid="uid://bm5dq3lcopsvl"]
+
+[ext_resource type="Script" path="res://scripts/TrackSwitch.gd" id="1_ucgph"]
+[ext_resource type="Script" path="res://scripts/Track.gd" id="2_mym28"]
+[ext_resource type="Texture2D" uid="uid://dyk30b1nt2gvq" path="res://assets/crosstie.png" id="3_hpgfb"]
+[ext_resource type="Texture2D" uid="uid://4os8k8h2eoph" path="res://assets/switch_right.png" id="3_nu1m2"]
+[ext_resource type="PackedScene" uid="uid://btfdanletw1gi" path="res://prefabs/TrackJunction.tscn" id="4_umyy3"]
+[ext_resource type="Texture2D" uid="uid://bk10alqlk6ie2" path="res://assets/switch_left.png" id="4_xc4rb"]
+[ext_resource type="Texture2D" uid="uid://dlgfnj8p01ym4" path="res://assets/track.png" id="5_cqy4p"]
+[ext_resource type="Texture2D" uid="uid://cfj6l27udpvr7" path="res://assets/arrow.png" id="6_nflxo"]
+
+[sub_resource type="Curve2D" id="Curve2D_nxaiu"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -24.017, 16.005, 24.017, -16.005, 64, -16, 0, 0, 0, 0, 128, -32)
+}
+point_count = 3
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hyu12"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_mjuev"]
+instance_count = 13
+mesh = SubResource("ArrayMesh_hyu12")
+buffer = PackedFloat32Array(0.99808, 0.0619333, 0, 4.99647, -0.0619333, 0.99808, 0, -0.176236, 0.992584, 0.121559, 0, 14.9636, -0.121559, 0.992584, 0, -0.961502, 0.98391, 0.178663, 0, 24.872, -0.178663, 0.98391, 0, -2.30135, 0.969346, 0.2457, 0, 34.6786, -0.2457, 0.969346, 0, -4.24865, 0.94496, 0.327186, 0, 44.3185, -0.327186, 0.94496, 0, -6.89664, 0.901405, 0.432977, 0, 53.6711, -0.432977, 0.901405, 0, -10.4225, 0.847395, 0.530963, 0, 62.5187, -0.530963, 0.847395, 0, -15.0622, 0.910454, 0.413611, 0, 71.1488, -0.413611, 0.910454, 0, -20.1015, 0.949217, 0.314623, 0, 80.3623, -0.314623, 0.949217, 0, -23.9742, 0.971893, 0.235421, 0, 89.9171, -0.235421, 0.971893, 0, -26.9124, 0.985566, 0.169291, 0, 99.6749, -0.169291, 0.985566, 0, -29.0903, 0.993711, 0.111974, 0, 109.553, -0.111974, 0.993711, 0, -30.6376, 0.99852, 0.054383, 0, 119.503, -0.054383, 0.99852, 0, -31.6189)
+
+[sub_resource type="Curve2D" id="Curve2D_ht7f6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -23.902, -16.064, 23.902, 16.064, 64, 16, 0, 0, 0, 0, 128, 32)
+}
+point_count = 3
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_v08lw"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_uh3fl"]
+instance_count = 13
+mesh = SubResource("ArrayMesh_v08lw")
+buffer = PackedFloat32Array(0.998161, -0.0606213, 0, 4.9967, 0.0606213, 0.998161, 0, 0.169378, 0.992717, -0.120468, 0, 14.9649, 0.120468, 0.992717, 0, 0.941638, 0.984055, -0.177863, 0, 24.8746, 0.177863, 0.984055, 0, 2.27142, 0.969439, -0.245334, 0, 34.6825, 0.245334, 0.969439, 0, 4.21167, 0.944761, -0.32776, 0, 44.323, 0.32776, 0.944761, 0, 6.85753, 0.90068, -0.434483, 0, 53.6727, 0.434483, 0.90068, 0, 10.3906, 0.845464, -0.534033, 0, 62.5102, 0.534033, 0.845464, 0, 15.0492, 0.909689, -0.415289, 0, 71.1239, 0.415289, 0.909689, 0, 20.116, 0.949047, -0.315133, 0, 80.3316, 0.315133, 0.949047, 0, 24.0021, 0.971927, -0.235281, 0, 89.8854, 0.235281, 0.971927, 0, 26.9434, 0.985684, -0.168601, 0, 99.6439, 0.168601, 0.985684, 0, 29.1182, 0.993824, -0.110965, 0, 109.523, 0.110965, 0.993824, 0, 30.6578, 0.998585, -0.0531809, 0, 119.475, 0.0531809, 0.998585, 0, 31.6286)
+
+[sub_resource type="Theme" id="Theme_nwi6f"]
+CheckButton/icons/checked = ExtResource("3_nu1m2")
+CheckButton/icons/unchecked = ExtResource("4_xc4rb")
+
+[node name="TrackSwitch" type="Node2D"]
+script = ExtResource("1_ucgph")
+
+[node name="LeftTrack" type="Path2D" parent="."]
+curve = SubResource("Curve2D_nxaiu")
+script = ExtResource("2_mym28")
+
+[node name="Crosstie" type="MeshInstance2D" parent="LeftTrack"]
+visible = false
+position = Vector2(-50, -50)
+mesh = SubResource("ArrayMesh_hyu12")
+texture = ExtResource("3_hpgfb")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="LeftTrack"]
+z_index = 1
+multimesh = SubResource("MultiMesh_mjuev")
+texture = ExtResource("3_hpgfb")
+
+[node name="HeadPoint" type="PathFollow2D" parent="LeftTrack"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+rotation = -0.244979
+loop = false
+
+[node name="TrackJunction" parent="LeftTrack/HeadPoint" instance=ExtResource("4_umyy3")]
+parent = NodePath("../..")
+side = 2
+
+[node name="TailPoint" type="PathFollow2D" parent="LeftTrack"]
+position = Vector2(128, -32)
+rotation = -0.244979
+progress = 133.506
+loop = false
+
+[node name="TrackJunction" parent="LeftTrack/TailPoint" instance=ExtResource("4_umyy3")]
+parent = NodePath("../..")
+
+[node name="TrackLine" type="Line2D" parent="LeftTrack"]
+z_index = 2
+points = PackedVector2Array(2.08165e-12, 2.08165e-12, 1.76493, -0.031045, 6.62261, -0.249297, 10.0063, -0.487274, 13.9174, -0.842432, 18.2738, -1.33823, 22.9936, -1.99813, 25.4642, -2.39694, 27.9949, -2.84558, 30.5755, -3.34697, 33.1957, -3.90405, 35.8452, -4.51975, 38.514, -5.197, 41.1916, -5.93874, 43.8678, -6.74789, 46.5325, -7.62739, 49.1753, -8.58017, 51.7861, -9.60917, 54.3545, -10.7173, 56.8703, -11.9075, 59.3234, -13.1828, 61.7033, -14.5459, 64, -16, 66.2967, -17.4541, 68.6766, -18.8172, 71.1297, -20.0925, 73.6455, -21.2827, 76.2139, -22.3908, 78.8247, -23.4198, 81.4675, -24.3726, 84.1322, -25.2521, 86.8084, -26.0613, 89.486, -26.803, 92.1548, -27.4802, 94.8044, -28.0959, 97.4245, -28.653, 100.005, -29.1544, 102.536, -29.6031, 105.006, -30.0019, 109.726, -30.6618, 114.083, -31.1576, 117.994, -31.5127, 121.377, -31.7507, 126.235, -31.969, 128, -32)
+width = 20.0
+texture = ExtResource("5_cqy4p")
+texture_mode = 1
+
+[node name="Pointer" type="PathFollow2D" parent="LeftTrack"]
+visible = false
+z_index = 2
+position = Vector2(64, -16)
+rotation = -0.58782
+progress = 66.7532
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftTrack/Pointer"]
+texture = ExtResource("6_nflxo")
+
+[node name="RightTrack" type="Path2D" parent="."]
+z_index = 1
+curve = SubResource("Curve2D_ht7f6")
+script = ExtResource("2_mym28")
+
+[node name="Crosstie" type="MeshInstance2D" parent="RightTrack"]
+visible = false
+position = Vector2(-50, -50)
+mesh = SubResource("ArrayMesh_v08lw")
+texture = ExtResource("3_hpgfb")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="RightTrack"]
+z_index = 1
+multimesh = SubResource("MultiMesh_uh3fl")
+texture = ExtResource("3_hpgfb")
+
+[node name="HeadPoint" type="PathFollow2D" parent="RightTrack"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+rotation = 0.244979
+loop = false
+
+[node name="TrackJunction" parent="RightTrack/HeadPoint" instance=ExtResource("4_umyy3")]
+parent = NodePath("../..")
+side = 2
+
+[node name="TailPoint" type="PathFollow2D" parent="RightTrack"]
+position = Vector2(128, 32)
+rotation = 0.244979
+progress = 133.535
+loop = false
+
+[node name="TrackJunction" parent="RightTrack/TailPoint" instance=ExtResource("4_umyy3")]
+parent = NodePath("../..")
+side = 1
+
+[node name="TrackLine" type="Line2D" parent="RightTrack"]
+z_index = 2
+points = PackedVector2Array(2.08165e-12, 2.08165e-12, 1.76964, 0.028625, 6.63878, 0.241, 10.0295, 0.475391, 13.9477, 0.826875, 18.311, 1.31917, 23.0368, 1.976, 25.5098, 2.37353, 28.0427, 2.82108, 30.6249, 3.32162, 33.2462, 3.87813, 35.8963, 4.49355, 38.5649, 5.17086, 41.2417, 5.91302, 43.9163, 6.723, 46.5786, 7.60376, 49.218, 8.55827, 51.8245, 9.58948, 54.3875, 10.7004, 56.8969, 11.8939, 59.3423, 13.173, 61.7135, 14.5408, 64, 16, 66.2865, 17.4592, 68.6577, 18.827, 71.1031, 20.1061, 73.6125, 21.2996, 76.1756, 22.4105, 78.782, 23.4417, 81.4214, 24.3962, 84.0837, 25.277, 86.7583, 26.087, 89.4351, 26.8291, 92.1037, 27.5065, 94.7538, 28.1219, 97.3751, 28.6784, 99.9574, 29.1789, 102.49, 29.6265, 104.963, 30.024, 109.689, 30.6808, 114.052, 31.1731, 117.97, 31.5246, 121.361, 31.759, 126.23, 31.9714, 128, 32)
+width = 20.0
+texture = ExtResource("5_cqy4p")
+texture_mode = 1
+
+[node name="Pointer" type="PathFollow2D" parent="RightTrack"]
+z_index = 2
+position = Vector2(63.9881, 15.9924)
+rotation = 0.591495
+progress = 66.7532
+
+[node name="Sprite2D" type="Sprite2D" parent="RightTrack/Pointer"]
+texture = ExtResource("6_nflxo")
+
+[node name="Button" type="CheckButton" parent="."]
+offset_left = -32.0
+offset_top = -72.0
+offset_right = 44.0
+offset_bottom = -24.0
+rotation = 1.5708
+pivot_offset = Vector2(38, 24)
+focus_mode = 0
+theme = SubResource("Theme_nwi6f")
+button_pressed = true
+keep_pressed_outside = true
+shortcut_in_tooltip = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

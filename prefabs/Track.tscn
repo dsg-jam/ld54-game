@@ -49,6 +49,8 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 loop = false
 
 [node name="TrackJunction" parent="HeadPoint" instance=ExtResource("3_el8rw")]
+parent = NodePath("../..")
+side = 2
 
 [node name="TailPoint" type="PathFollow2D" parent="."]
 position = Vector2(256, 2.08165e-12)
@@ -56,6 +58,8 @@ progress = 256.0
 loop = false
 
 [node name="TrackJunction" parent="TailPoint" instance=ExtResource("3_el8rw")]
+parent = NodePath("../..")
+side = 3
 
 [node name="TrackLine" type="Line2D" parent="."]
 z_index = 2

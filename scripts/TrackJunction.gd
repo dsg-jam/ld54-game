@@ -5,7 +5,7 @@ extends Area2D
 @export var side: Track.Directions
 @export var enabled := true
 
-@onready var track: Track = get_parent()
+@onready var track: Track = self.get_node(parent)
 
 func _on_TrackJunction_area_entered(area: Area2D) -> void:
 	if !self.enabled || !area.is_in_group("track_junctions"): return
