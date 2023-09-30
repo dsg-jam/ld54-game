@@ -1,7 +1,6 @@
 @tool
 # A piece of track that TrainWheel nodes follow along
-class_name Track
-extends Path2D
+class_name Track extends Path2D
 
 signal wheel_at_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_tail(wheel: TrainWheel, extra: float, is_forward: bool)

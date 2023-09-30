@@ -2,8 +2,7 @@
 # A node that allows switching between two tracks
 #
 # Vehicles that enter at the head will be placed on the active track
-class_name TrackSwitch
-extends Node2D
+class_name TrackSwitch extends Node2D
 
 signal wheel_at_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_left(wheel: TrainWheel, extra: float, is_forward: bool)

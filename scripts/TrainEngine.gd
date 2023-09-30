@@ -1,6 +1,5 @@
 # Similar to TrainVehicle but it applies power to its front wheel
-class_name TrainEngine
-extends TrainVehicle
+class_name TrainEngine extends TrainVehicle
 
 signal train_info(info: Dictionary)
 
