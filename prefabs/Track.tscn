@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1xy67euifbh6"]
+
+[ext_resource type="Script" path="res://scripts/Track.gd" id="1_ibb4y"]
+[ext_resource type="Texture2D" uid="uid://dyk30b1nt2gvq" path="res://assets/crosstie.png" id="2_hrp4r"]
+[ext_resource type="PackedScene" uid="uid://btfdanletw1gi" path="res://prefabs/TrackJunction.tscn" id="3_el8rw"]
+[ext_resource type="Texture2D" uid="uid://dlgfnj8p01ym4" path="res://assets/track.png" id="4_tum5x"]
+
+[sub_resource type="Curve2D" id="Curve2D_nxaiu"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 256, 2.08165e-12)
+}
+point_count = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hyu12"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_mjuev"]
+instance_count = 26
+mesh = SubResource("ArrayMesh_hyu12")
+buffer = PackedFloat32Array(1, 0, 0, 5, 0, 1, 0, 2.08165e-12, 1, 4.33681e-20, 0, 15, -4.33681e-20, 1, 0, 2.08165e-12, 1, 0, 0, 25, 0, 1, 0, 2.08165e-12, 1, -4.33681e-20, 0, 35, 4.33681e-20, 1, 0, 2.08165e-12, 1, 0, 0, 45, 0, 1, 0, 2.08165e-12, 1, 0, 0, 55, 0, 1, 0, 2.08165e-12, 1, 0, 0, 65, 0, 1, 0, 2.08165e-12, 1, 0, 0, 75, 0, 1, 0, 2.08165e-12, 1, 0, 0, 85, 0, 1, 0, 2.08165e-12, 1, 0, 0, 95, 0, 1, 0, 2.08165e-12, 1, 0, 0, 105, 0, 1, 0, 2.08165e-12, 1, 0, 0, 115, 0, 1, 0, 2.08165e-12, 1, 4.33681e-20, 0, 125, -4.33681e-20, 1, 0, 2.08165e-12, 1, 0, 0, 135, 0, 1, 0, 2.08165e-12, 1, 0, 0, 145, 0, 1, 0, 2.08165e-12, 1, 0, 0, 155, 0, 1, 0, 2.08165e-12, 1, 0, 0, 165, 0, 1, 0, 2.08165e-12, 1, 0, 0, 175, 0, 1, 0, 2.08165e-12, 1, 0, 0, 185, 0, 1, 0, 2.08165e-12, 1, 0, 0, 195, 0, 1, 0, 2.08165e-12, 1, 4.33681e-20, 0, 205, -4.33681e-20, 1, 0, 2.08165e-12, 1, 4.33681e-20, 0, 215, -4.33681e-20, 1, 0, 2.08165e-12, 1, 0, 0, 225, 0, 1, 0, 2.08165e-12, 1, 0, 0, 235, 0, 1, 0, 2.08165e-12, 1, 0, 0, 245, 0, 1, 0, 2.08165e-12, 1, 0, 0, 255, 0, 1, 0, 2.08165e-12)
+
+[node name="Track" type="Path2D"]
+curve = SubResource("Curve2D_nxaiu")
+script = ExtResource("1_ibb4y")
+
+[node name="Crosstie" type="MeshInstance2D" parent="."]
+visible = false
+position = Vector2(-50, -50)
+mesh = SubResource("ArrayMesh_hyu12")
+texture = ExtResource("2_hrp4r")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="."]
+z_index = 1
+multimesh = SubResource("MultiMesh_mjuev")
+texture = ExtResource("2_hrp4r")
+
+[node name="HeadPoint" type="PathFollow2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+loop = false
+
+[node name="TrackJunction" parent="HeadPoint" instance=ExtResource("3_el8rw")]
+
+[node name="TailPoint" type="PathFollow2D" parent="."]
+position = Vector2(256, 2.08165e-12)
+progress = 256.0
+loop = false
+
+[node name="TrackJunction" parent="TailPoint" instance=ExtResource("3_el8rw")]
+
+[node name="TrackLine" type="Line2D" parent="."]
+z_index = 2
+points = PackedVector2Array(2.08165e-12, 2.08165e-12, 2.875, 2.08165e-12, 6.32812, 2.08165e-12, 11, 2.08165e-12, 13.7637, 2.08165e-12, 16.7969, 2.08165e-12, 20.0879, 2.08165e-12, 23.625, 2.08165e-12, 27.3965, 2.08165e-12, 31.3906, 2.08165e-12, 35.5957, 2.08165e-12, 40, 2.08165e-12, 44.5918, 2.08165e-12, 49.3594, 2.08165e-12, 54.291, 2.08165e-12, 56.8147, 2.08165e-12, 59.375, 2.08165e-12, 61.9705, 2.08165e-12, 64.5996, 2.08165e-12, 67.261, 2.08165e-12, 69.9531, 2.08165e-12, 72.6746, 2.08165e-12, 75.4238, 2.08165e-12, 78.1995, 2.08165e-12, 81, 2.08165e-12, 83.824, 2.08165e-12, 86.6699, 2.08165e-12, 89.5364, 2.08165e-12, 92.4219, 2.08165e-12, 95.325, 2.08165e-12, 98.2441, 2.08165e-12, 101.178, 2.08165e-12, 104.125, 2.08165e-12, 107.084, 2.08165e-12, 110.053, 2.08165e-12, 113.031, 2.08165e-12, 116.016, 2.08165e-12, 119.007, 2.08165e-12, 122.002, 2.08165e-12, 125, 2.08165e-12, 128, 2.08165e-12, 131, 2.08165e-12, 133.998, 2.08165e-12, 136.993, 2.08165e-12, 139.984, 2.08165e-12, 142.969, 2.08165e-12, 145.947, 2.08165e-12, 148.916, 2.08165e-12, 151.875, 2.08165e-12, 154.822, 2.08165e-12, 157.756, 2.08165e-12, 160.675, 2.08165e-12, 163.578, 2.08165e-12, 166.464, 2.08165e-12, 169.33, 2.08165e-12, 172.176, 2.08165e-12, 175, 2.08165e-12, 177.801, 2.08165e-12, 180.576, 2.08165e-12, 183.325, 2.08165e-12, 186.047, 2.08165e-12, 188.739, 2.08165e-12, 191.4, 2.08165e-12, 194.03, 2.08165e-12, 196.625, 2.08165e-12, 199.185, 2.08165e-12, 201.709, 2.08165e-12, 206.641, 2.08165e-12, 211.408, 2.08165e-12, 216, 2.08165e-12, 220.404, 2.08165e-12, 224.609, 2.08165e-12, 228.604, 2.08165e-12, 232.375, 2.08165e-12, 235.912, 2.08165e-12, 239.203, 2.08165e-12, 242.236, 2.08165e-12, 245, 2.08165e-12, 249.672, 2.08165e-12, 253.125, 2.08165e-12, 256, 2.08165e-12)
+width = 20.0
+texture = ExtResource("4_tum5x")
+texture_mode = 1
