@@ -23,6 +23,11 @@ func _ready() -> void:
 	self._draw_line()
 	self._update_sprites()
 
+func _process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		self._draw_line()
+		self._update_sprites()
+
 func _draw_line() -> void:
 	for i in range(TRACK_LINE_POINTS):
 		self._track_line.add_point(Vector2((256.0/float(TRACK_LINE_POINTS)) * float(i), 0.0))

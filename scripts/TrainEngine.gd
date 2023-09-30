@@ -67,15 +67,15 @@ func _update_brake(delta: float) -> void:
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
 	var resistance := self.friction_force + self._drag_force()
-	if self.applied_force == 0 && abs(self.velocity) < self.resistance / self.total_mass * self.delta:
+	if self.applied_force == 0 && abs(self.velocity) < self.resistance / self.total_mass * delta:
 		self.velocity = 0
 	else:
 		if self.velocity > 0:
-			self.velocity = self.velocity + ((self.applied_force - self.resistance) / self.total_mass * self.delta)
+			self.velocity = self.velocity + ((self.applied_force - resistance) / self.total_mass * delta)
 		elif self.velocity < 0:
-			self.velocity = self.velocity + ((self.applied_force + self.resistance) / self.total_mass * self.delta)
+			self.velocity = self.velocity + ((self.applied_force + resistance) / self.total_mass * delta)
 		else:
-			self.velocity = self.velocity + (self.applied_force / self.total_mass * self.delta)
+			self.velocity = self.velocity + (self.applied_force / self.total_mass * delta)
 	self._apply_brake(delta)
 	self.front_wheel.move(self.velocity * self.velocity_multiplier * delta)
 
@@ -97,6 +97,6 @@ func _drag_force() -> float:
 func _apply_brake(delta: float) -> void:
 	if self.velocity == 0: return
 	elif self.velocity > 0:
-		self.velocity = max(self.velocity - self.brake_force * self.brake_power * self.delta, 0)
+		self.velocity = max(self.velocity - self.brake_force * self.brake_power * delta, 0)
 	elif self.velocity < 0:
-		self.velocity = min(self.velocity + self.brake_force * self.brake_power * self.delta, 0)
+		self.velocity = min(self.velocity + self.brake_force * self.brake_power * delta, 0)
