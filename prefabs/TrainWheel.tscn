@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dt8qvg4eqnc71"]
+[gd_scene load_steps=4 format=3 uid="uid://dt8qvg4eqnc71"]
 
 [ext_resource type="Script" path="res://scripts/TrainWheel.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://cn8j5durobfeh" path="res://assets/train_wheels.png" id="2_kf5hj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsg05"]
+size = Vector2(22, 22)
 
 [node name="TrainWheel" type="PathFollow2D" groups=["train_wheels"]]
 z_index = 5
@@ -11,3 +14,11 @@ script = ExtResource("2")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
 texture = ExtResource("2_kf5hj")
+
+[node name="Area2D" type="Area2D" parent="." groups=["train_wheel"]]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_fsg05")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

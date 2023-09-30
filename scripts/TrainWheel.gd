@@ -18,6 +18,7 @@ var follow_distance: float
 var current_track: Track
 var current_track_length: float
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_area: Area2D = $Area2D
 
 # Put the wheel on a track
 func set_track(track: Path2D) -> void:
@@ -90,3 +91,10 @@ func _disconnect_from_track() -> void:
 	if self.current_track:
 		self.at_track_head.disconnect(self.current_track.emit_wheel_at_head)
 		self.at_track_tail.disconnect(self.current_track.emit_wheel_at_tail)
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if !area.is_in_group("train_vehicle"): return
+	var train_vehicle = area.owner as TrainVehicle
+	if train_vehicle.front_wheel == self or train_vehicle.back_wheel == self:
+		return
+	print("Collision with vehicle detected! GAME_OVER_SEQUENCE")
