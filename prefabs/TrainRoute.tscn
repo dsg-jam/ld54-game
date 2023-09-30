@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7r1kx700h11u"]
+
+[ext_resource type="Script" path="res://scripts/TrainRoute.gd" id="1_xh0bb"]
+
+[node name="TrainRoute" type="Node2D"]
+script = ExtResource("1_xh0bb")
+metadata/_edit_lock_ = true

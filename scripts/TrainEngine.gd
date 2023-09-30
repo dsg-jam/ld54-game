@@ -2,6 +2,7 @@
 class_name TrainEngine extends TrainVehicle
 
 signal train_info(info: Dictionary)
+signal entered_station(station: TrainStation)
 
 @export var max_force: float = 1000
 @export var gravity: float = 9.8
@@ -106,4 +107,4 @@ func _apply_brake(delta: float) -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("train_station"): return
-	print("collision with station", area)
+	self.entered_station.emit(area)
