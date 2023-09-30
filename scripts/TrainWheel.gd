@@ -17,7 +17,7 @@ var direction := Directions.TAILWARD
 var follow_distance: float
 var current_track: Track
 var current_track_length: float
-@onready var sprite := $Sprite2D
+@onready var sprite: Sprite2D = $Sprite2D
 
 # Put the wheel on a track
 func set_track(track: Path2D) -> void:

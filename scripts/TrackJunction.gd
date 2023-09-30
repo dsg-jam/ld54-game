@@ -1,12 +1,17 @@
+class_name TrackJunction
 extends Area2D
 
 @export var parent: NodePath
-@export var side: String
+@export var side: Track.Directions
 @export var enabled := true
 
-func _on_TrackJunction_area_entered(area):
-	if !enabled || !area.enabled: return
-	if area.is_in_group("track_junctions") && area.enabled:
-		get_parent().link_track(area.track, side, area.side)
-		enabled = false
-		area.enabled = false
+@onready var track: Track = get_parent()
+
+func _on_TrackJunction_area_entered(area: Area2D) -> void:
+	if !self.enabled || !area.is_in_group("track_junctions"): return
+	# we know this is a junction because of the group
+	var junction := area as TrackJunction
+	if !junction.enabled: return
+	self.track.link_track(junction.track, self.side, junction.side)
+	self.enabled = false
+	junction.enabled = false
