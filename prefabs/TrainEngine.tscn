@@ -22,6 +22,10 @@ brake_application_speed = 5.0
 
 [node name="RailFollower" parent="." index="0" groups=["train_engine_front_wheels"]]
 
+[node name="Area2D" parent="Body" index="0"]
+monitoring = true
+monitorable = false
+
 [node name="CollisionShape2D" parent="Body/Area2D" index="0"]
 shape = SubResource("RectangleShape2D_fju05")
 
