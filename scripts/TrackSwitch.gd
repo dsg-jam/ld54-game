@@ -7,6 +7,7 @@ class_name TrackSwitch extends Node2D
 signal wheel_at_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_left(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_right(wheel: TrainWheel, extra: float, is_forward: bool)
+signal switch_direction_toggled()
 
 var neighboring_tracks: Dictionary
 
@@ -28,6 +29,7 @@ func switch() -> void:
 	self.direction = Track.Directions.LEFT if direction == Track.Directions.RIGHT else Track.Directions.RIGHT
 	self._update_sprites()
 	self._update_checkbutton()
+	self.switch_direction_toggled.emit()
 
 func _update_checkbutton() -> void:
 	self.checkbutton.button_pressed = direction == Track.Directions.RIGHT

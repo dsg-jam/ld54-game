@@ -2,7 +2,7 @@
 class_name TrainEngine extends TrainVehicle
 
 signal train_info(info: Dictionary)
-signal entered_station(station: TrainStation)
+signal entered_station(train: TrainEngine, station: TrainStation)
 
 @export var color: Color
 @export var max_force: float = 1000
@@ -36,11 +36,11 @@ var velocity: float = 0
 func _ready() -> void:
 	self.set_color(self.color)
 	super._ready()
-	self.front_wheel.new_track_entered.connect(_on_track_entered)
+	self.front_wheel.new_track_entered.connect(self._on_track_entered)
 	self._update_frictions()
 
-func _on_track_entered():
-	self._calc_distance_to_next_stop()
+func connect_tracks_controller(tracks_controller: TracksController) -> void:
+	tracks_controller.track_switch_changed.connect(self._on_track_switch_toggled)
 
 # Update the friction forces that depend on mass when the towed mass changes
 func change_towed_mass(mass_delta: float) -> void:
@@ -217,6 +217,12 @@ func _calc_distance_to_next_stop() -> void:
 		from_dir = current_track.neighboring_tracks[to_dir][0]
 		current_track = current_track.neighboring_tracks[to_dir][1]
 
+func _on_track_switch_toggled() -> void:
+	self._calc_distance_to_next_stop()
+
+func _on_track_entered() -> void:
+	self._calc_distance_to_next_stop()
+
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("train_station"): return
-	self.entered_station.emit(area)
+	self.entered_station.emit(self, area)
