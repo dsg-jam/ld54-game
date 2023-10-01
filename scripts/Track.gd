@@ -4,6 +4,7 @@ class_name Track extends Path2D
 
 signal wheel_at_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_tail(wheel: TrainWheel, extra: float, is_forward: bool)
+signal signal_toggled()
 
 enum Directions {
 	LEFT,
@@ -17,6 +18,10 @@ const TRACK_LINE_POINTS: int = 56
 var neighboring_tracks: Dictionary
 
 @export var crosstie_distance: int = 10
+@export var head_signal_enabled: bool = false
+@export var tail_signal_enabled: bool = false
+@export var head_signal: bool = false
+@export var tail_signal: bool = false
 @onready var _crosstie_mesh_instance: MeshInstance2D = $Crosstie
 @onready var _crosstie_multimesh: MultiMeshInstance2D = $MultiMeshInstance2D
 @onready var _track_line: Line2D = $TrackLine
@@ -106,3 +111,11 @@ func _update_crossties() -> void:
 		t = t.rotated((next_position - crosstie_position).normalized().angle())
 		t.origin = crosstie_position
 		crossties.set_instance_transform_2d(i, t)
+
+func _on_head_signal_button_pressed():
+	self.head_signal = !self.head_signal
+	self.signal_toggled.emit()
+
+func _on_tail_signal_button_pressed():
+	self.tail_signal = !self.tail_signal
+	self.signal_toggled.emit()
