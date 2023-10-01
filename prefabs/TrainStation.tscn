@@ -1,15 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctghq2lknpslx"]
+[gd_scene load_steps=16 format=3 uid="uid://ctghq2lknpslx"]
 
 [ext_resource type="Script" path="res://scripts/TrainStation.gd" id="1_g3ngn"]
 [ext_resource type="PackedScene" uid="uid://d1xy67euifbh6" path="res://prefabs/Track.tscn" id="1_pb151"]
-[ext_resource type="Texture2D" uid="uid://bc73x8bg86g7f" path="res://assets/station_color_part.png" id="3_okpuv"]
+[ext_resource type="Texture2D" uid="uid://b5d3bxjxvwi8b" path="res://assets/station_floor.png" id="3_i71g5"]
 [ext_resource type="Texture2D" uid="uid://b8ubdw533cysf" path="res://assets/station_clock_under.png" id="4_1axqq"]
-[ext_resource type="Texture2D" uid="uid://bepembms0s704" path="res://assets/station_static.png" id="4_rrfcl"]
+[ext_resource type="Texture2D" uid="uid://bxxyaa3lw2b76" path="res://assets/station_roof.png" id="4_25ilx"]
 [ext_resource type="Texture2D" uid="uid://c2udkkfuwbis0" path="res://assets/warn.png" id="5_evrpx"]
 [ext_resource type="Texture2D" uid="uid://bqcykde5yiya" path="res://assets/station_clock_progress.png" id="5_iadev"]
+[ext_resource type="Texture2D" uid="uid://dxiy1j5xrj527" path="res://assets/station_roof_static.png" id="5_jboeq"]
 [ext_resource type="Script" path="res://scripts/RotateWithCamera.gd" id="5_kntof"]
+[ext_resource type="Texture2D" uid="uid://cye07fj4ea710" path="res://assets/station_shadow.png" id="6_ep006"]
 
-[sub_resource type="Curve2D" id="Curve2D_c0bfu"]
+[sub_resource type="Curve2D" id="Curve2D_l7rdt"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 300, 0)
@@ -61,7 +63,7 @@ script = ExtResource("1_g3ngn")
 metadata/_edit_lock_ = true
 
 [node name="Track" parent="." groups=["train_station_track"] instance=ExtResource("1_pb151")]
-curve = SubResource("Curve2D_c0bfu")
+curve = SubResource("Curve2D_l7rdt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(150, 0)
@@ -77,24 +79,30 @@ libraries = {
 }
 
 [node name="Body" type="Node2D" parent="."]
-z_index = 10
-position = Vector2(1, -77)
+position = Vector2(150, -18)
 
-[node name="Station" type="Sprite2D" parent="Body"]
-z_index = 10
-position = Vector2(150, 45)
-scale = Vector2(1.15, 1.15)
-texture = ExtResource("3_okpuv")
+[node name="Floor" type="Sprite2D" parent="Body"]
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("3_i71g5")
 
-[node name="StationStatic" type="Sprite2D" parent="Body"]
-z_index = 10
-position = Vector2(150, 45)
-scale = Vector2(1.15, 1.15)
-texture = ExtResource("4_rrfcl")
+[node name="Roof" type="Sprite2D" parent="Body"]
+z_index = 20
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("4_25ilx")
+
+[node name="RoofStatic" type="Sprite2D" parent="Body"]
+z_index = 21
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("5_jboeq")
+
+[node name="Shadow" type="Sprite2D" parent="Body"]
+z_index = 20
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("6_ep006")
 
 [node name="Clock" type="Node2D" parent="."]
 z_index = 100
-position = Vector2(151, -19)
+position = Vector2(150, -57)
 script = ExtResource("5_kntof")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="Clock"]
@@ -118,7 +126,6 @@ texture_under = ExtResource("4_1axqq")
 texture_progress = ExtResource("5_iadev")
 
 [node name="Warn" type="Sprite2D" parent="Clock"]
-modulate = Color(1, 1, 1, 0)
 z_index = 12
 position = Vector2(28, -26)
 texture = ExtResource("5_evrpx")
