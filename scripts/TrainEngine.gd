@@ -133,7 +133,6 @@ func _update_auto_stop_break() -> void:
 		return
 	if remaining_distance <= breaking_distance:
 		self._state = TrainState.Braking
-		self.applied_force = 0
 		self.brake_force = 1.5
 
 func _get_breaking_distance() -> float:
