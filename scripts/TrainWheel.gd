@@ -30,17 +30,18 @@ func set_track(track: Path2D) -> void:
 	self.current_track_length = track.curve.get_baked_length()
 	self.at_track_head.connect(track.emit_wheel_at_head)
 	self.at_track_tail.connect(track.emit_wheel_at_tail)
-	new_track_entered.emit()
 
 # Set the direction of "forward travel" along the track to be towards the tail
 func head_to_tail() -> void:
 	self.direction = Directions.TAILWARD
 	self.sprite.flip_v = false
+	new_track_entered.emit()
 
 # Set the direction of "forward travel" along the track to be towards the head
 func tail_to_head() -> void:
 	self.direction = Directions.HEADWARD
 	self.sprite.flip_v = true
+	new_track_entered.emit()
 
 # Place this wheel a specific distance behind another one
 func follow(leader: TrainWheel, distance: float) -> void:
