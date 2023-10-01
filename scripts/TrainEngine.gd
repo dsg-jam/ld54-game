@@ -147,12 +147,12 @@ func _get_track_length(from_dir: Track.Directions, track) -> float:
 	if track.is_in_group("track_switch"):
 		var track_switch = track as TrackSwitch
 		if from_dir == Track.Directions.HEAD:
-			if track.direction == Track.Directions.RIGHT:
-				return track.right_track.curve.get_baked_length()
-			return track.left_track.curve.get_baked_length()
+			if track_switch.direction == Track.Directions.RIGHT:
+				return track_switch.right_track.curve.get_baked_length()
+			return track_switch.left_track.curve.get_baked_length()
 		if from_dir == Track.Directions.RIGHT:
-			return track.right_track.curve.get_baked_length()
-		return track.left_track.curve.get_baked_length()
+			return track_switch.right_track.curve.get_baked_length()
+		return track_switch.left_track.curve.get_baked_length()
 	return track.curve.get_baked_length()
 
 func _is_stopping_track(distance: float, track) -> bool:
