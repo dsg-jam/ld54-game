@@ -8,6 +8,8 @@ signal wheel_at_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_left(wheel: TrainWheel, extra: float, is_forward: bool)
 signal wheel_at_right(wheel: TrainWheel, extra: float, is_forward: bool)
 
+var neighboring_tracks: Dictionary
+
 @export var direction := Track.Directions.RIGHT
 @onready var left_track: Track = $LeftTrack
 @onready var right_track: Track = $RightTrack
@@ -34,6 +36,8 @@ func _update_checkbutton() -> void:
 #
 # This links both tracks to each other, so only call it once per connection
 func link_track(other_track, from_side: Track.Directions, to_side: Track.Directions) -> void:
+	self.neighboring_tracks[from_side] = [to_side, other_track]
+	other_track.neighboring_tracks[to_side] = [from_side, self]
 	self.wheel_at_signal(from_side).connect(other_track.enter_from_callable(to_side))
 	other_track.wheel_at_signal(to_side).connect(self.enter_from_callable(from_side))
 
