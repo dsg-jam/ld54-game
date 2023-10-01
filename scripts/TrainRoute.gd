@@ -3,7 +3,7 @@ extends Node2D
 @export var train: TrainEngine
 
 var _stops: Array[TrainRouteStop]
-var _stop_idx: int = 0
+var _stop_idx: int = -1 # -1 means the route is disabled
 
 func _ready() -> void:
 	if self.train == null:
@@ -21,26 +21,31 @@ func _ready() -> void:
 		assert(stop.station.is_node_ready())
 		stop.station.timeout.connect(self._on_station_timeout)
 
+	self._stop_idx = 0
 	self._choose_available_stop(false)
 	self._activate_stop()
 
+func is_disabled() -> bool:
+	return self._stop_idx < 0
+
 func _on_train_entered_station(incoming_train: TrainEngine, station: TrainStation) -> void:
 	var stop: TrainRouteStop = self._stops[self._stop_idx]
-	if incoming_train != self.train || station != stop.station:
+	if self.is_disabled() || incoming_train != self.train || station != stop.station:
 		return
 	stop.station.reset()
 
 func _on_train_left_station(leaving_train: TrainEngine, station: TrainStation) -> void:
 	var stop: TrainRouteStop = self._stops[self._stop_idx]
-	if leaving_train != self.train || station != stop.station:
+	if self.is_disabled() || leaving_train != self.train || station != stop.station:
 		return
 	self._choose_available_stop(true)
 	self._activate_stop()
 
 func _on_station_timeout(station: TrainStation) -> void:
 	var stop: TrainRouteStop = self._stops[self._stop_idx]
-	if station != stop.station:
+	if self.is_disabled() || station != stop.station:
 		return
+	self._stop_idx = -1
 	print("INSERT GAME OVER HERE")
 
 func _choose_available_stop(next: bool) -> void:
@@ -53,6 +58,7 @@ func _choose_available_stop(next: bool) -> void:
 	push_error("no available stop found")
 
 func _activate_stop() -> void:
+	assert(!self.is_disabled())
 	var stop: TrainRouteStop = self._stops[self._stop_idx]
 	assert(stop.station.available)
 	stop.station.start_timer(stop.delay)
