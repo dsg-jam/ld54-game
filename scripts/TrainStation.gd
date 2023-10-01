@@ -42,3 +42,4 @@ func reset() -> void:
 
 func _on_timer_timeout() -> void:
 	self.timeout.emit(self)
+	self.reset()

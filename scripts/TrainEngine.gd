@@ -2,7 +2,7 @@
 class_name TrainEngine extends TrainVehicle
 
 signal train_info(info: Dictionary)
-signal entered_station(station: TrainStation)
+signal entered_station(train: TrainEngine, station: TrainStation)
 
 @export var color: Color
 @export var max_force: float = 1000
@@ -219,4 +219,4 @@ func _calc_distance_to_next_stop() -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("train_station"): return
-	self.entered_station.emit(area)
+	self.entered_station.emit(self, area)
