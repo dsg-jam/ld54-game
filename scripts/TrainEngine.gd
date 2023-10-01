@@ -12,12 +12,10 @@ signal left_station(train: TrainEngine, station: TrainStation)
 @export var rolling_resistance_coefficient: float = 0.005
 @export var air_resistance_coefficient: float = 0.10
 @export var air_density: float = 1.0
-@export var velocity_multiplier: float = 1.5
-@export var brake_power: float = 12
-@export var brake_application_speed: float = 5
+@export var brake_power: float = 50
 
 const LOOK_AHEAD_TRACKS: int = 10
-const DELTA_DISTANCE: float = 0.001
+const DELTA_BRAKING_DISTANCE: float = 10.0
 
 enum TrainState {
 	Conducting,
@@ -41,7 +39,7 @@ func _ready() -> void:
 	self._update_frictions()
 
 func connect_tracks_controller(tracks_controller: TracksController) -> void:
-	tracks_controller.track_switch_changed.connect(self._on_track_switch_toggled)
+	tracks_controller.track_changed.connect(self._on_track_change)
 
 # Update the friction forces that depend on mass when the towed mass changes
 func change_towed_mass(mass_delta: float) -> void:
@@ -52,7 +50,6 @@ func change_towed_mass(mass_delta: float) -> void:
 func _process(delta: float) -> void:
 	super._process(delta)
 	self._update_throttle()
-	self._update_brake(delta)
 	self._update_auto_stop_break()
 	self.train_info.emit({
 		"throttle": target_force_percent,
@@ -71,18 +68,37 @@ func _physics_process(delta: float) -> void:
 	if self.velocity != 0 or self.applied_force != 0:
 		self._move_with_friction(delta)
 	else:
-		self._state = TrainState.Conducting
+		if self._is_stop_signal():
+			self._state = TrainState.Braking
+		else:
+			self._state = TrainState.Conducting
+
+func _is_stop_signal() -> bool:
+	var current_track = self.front_wheel.current_track
+	if current_track.is_in_group("left_track"):
+		return false
+	if current_track.is_in_group("right_track"):
+		return false
+	var from = self._get_track_entry_dir(current_track)
+	var to = self._get_track_end_dir(from, current_track)
+	if to == Track.Directions.HEAD:
+		if current_track.head_signal_enabled and current_track.head_signal:
+			return true
+	if to == Track.Directions.TAIL:
+		if current_track.tail_signal_enabled and current_track.tail_signal:
+			return true
+	return false
 
 # Set the "throttle lever" position
 func _update_throttle() -> void:
 	if self._state == TrainState.Conducting:
-		self.target_force_percent = 1
+		self.target_force_percent = 1.0
+		self.brake_force = 0.0
 	else:
 		self.target_force_percent = 0
-
-# Set the percent of the total force with which the brake is being applied
-func _update_brake(delta: float) -> void:
-	self.brake_force = clamp(self.brake_force - self.brake_application_speed * delta, 0, 1)
+		self.brake_force = 1.0
+		self.applied_force = 0.0
+		self.target_force_percent = 0.0
 
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
@@ -97,7 +113,7 @@ func _move_with_friction(delta: float) -> void:
 		else:
 			self.velocity = self.velocity + (self.applied_force / self.total_mass * delta)
 	self._apply_brake(delta)
-	self.front_wheel.move(self.velocity * self.velocity_multiplier * delta)
+	self.front_wheel.move(self.velocity * delta)
 	self._detect_change_in_direction()
 
 func _detect_change_in_direction():
@@ -130,15 +146,15 @@ func _apply_brake(delta: float) -> void:
 		self.velocity = min(self.velocity + self.brake_force * self.brake_power * delta, 0)
 
 func _update_auto_stop_break() -> void:
-	var breaking_distance = self._get_breaking_distance()
+	var braking_distance = self._get_braking_distance()
 	var remaining_distance = self._next_stop_distance - self._get_covered_track_distance()
-	if remaining_distance <= DELTA_DISTANCE:
-		return
-	if remaining_distance <= breaking_distance:
+	if remaining_distance <= braking_distance:
 		self._state = TrainState.Braking
-		self.brake_force = 1.5
+		return
+	if braking_distance >= DELTA_BRAKING_DISTANCE:
+		self._state = TrainState.Conducting
 
-func _get_breaking_distance() -> float:
+func _get_braking_distance() -> float:
 	var time_to_stop = self.velocity / self.brake_power
 	return time_to_stop * self.velocity / 2.0
 
@@ -185,12 +201,17 @@ func _get_track_length(from_dir: Track.Directions, track) -> float:
 		return track_switch.left_track.curve.get_baked_length()
 	return track.curve.get_baked_length()
 
-func _is_stopping_track(track) -> bool:
+func _is_stopping_track(dir: Track.Directions, track) -> bool:
 	if track.is_in_group("train_station_track"):
 		return true
-	if track.is_in_group("track_signal_stop"):
-		# TODO
-		return true
+	if track.is_in_group("track_switch"):
+		return false
+	
+	if dir == Track.Directions.HEAD:
+		return track.head_signal_enabled and track.head_signal
+	elif dir == Track.Directions.TAIL:
+		return track.tail_signal_enabled and track.tail_signal
+	
 	return false
 
 # Calculates distance to next stop w/ current track length
@@ -210,7 +231,7 @@ func _calc_distance_to_next_stop() -> void:
 	for i in range(LOOK_AHEAD_TRACKS):
 		to_dir = self._get_track_end_dir(from_dir, current_track)
 		distance += self._get_track_length(from_dir, current_track)
-		if self._is_stopping_track(current_track):
+		if self._is_stopping_track(to_dir, current_track):
 			if self.velocity < 0:
 				distance -= current_track.curve.get_baked_length()
 			self._next_stop_distance = distance
@@ -218,7 +239,7 @@ func _calc_distance_to_next_stop() -> void:
 		from_dir = current_track.neighboring_tracks[to_dir][0]
 		current_track = current_track.neighboring_tracks[to_dir][1]
 
-func _on_track_switch_toggled() -> void:
+func _on_track_change() -> void:
 	self._calc_distance_to_next_stop()
 
 func _on_track_entered() -> void:
