@@ -38,6 +38,10 @@ func _ready() -> void:
 	self.front_wheel.new_track_entered.connect(self._on_track_entered)
 	self._update_frictions()
 
+func set_color(new_color: Color) -> void:
+	self.color = new_color
+	super.set_color(new_color)
+
 func connect_tracks_controller(tracks_controller: TracksController) -> void:
 	tracks_controller.track_changed.connect(self._on_track_change)
 

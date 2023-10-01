@@ -100,4 +100,4 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	var train_vehicle = area.owner as TrainVehicle
 	if train_vehicle.front_wheel == self or train_vehicle.back_wheel == self:
 		return
-	print("Collision with vehicle detected! GAME_OVER_SEQUENCE")
+	train_vehicle.crashed.emit()

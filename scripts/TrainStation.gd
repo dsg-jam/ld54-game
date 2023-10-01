@@ -37,8 +37,10 @@ func reset() -> void:
 	self._timer.stop()
 	self._warn_indicator.set_visible(false)
 	self._progress.set_visible(false)
-	self.set_color(self._reset_color)
 	self.available = true
+
+func reset_color() -> void:
+	self.set_color(self._reset_color)
 
 func _on_timer_timeout() -> void:
 	self.timeout.emit(self)
