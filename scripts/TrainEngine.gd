@@ -17,7 +17,6 @@ signal entered_station(station: TrainStation)
 const LOOK_AHEAD_TRACKS: int = 10
 
 var _next_stop_distance: float = INF
-var _breaking_distance: float = 0
 
 var friction_force: float
 var target_force_percent: float = 0
@@ -27,7 +26,11 @@ var velocity: float = 0
 
 func _ready() -> void:
 	super._ready()
+	self.front_wheel.new_track_entered.connect(_on_track_entered)
 	self._update_frictions()
+
+func _on_track_entered():
+	self._calc_distance_to_next_stop()
 
 # Update the friction forces that depend on mass when the towed mass changes
 func change_towed_mass(mass_delta: float) -> void:
@@ -52,7 +55,6 @@ func _process(delta: float) -> void:
 
 # Apply forces
 func _physics_process(delta: float) -> void:
-	self._find_distance_to_next_stop()
 	self._update_auto_stop_break()
 	
 	self._updated_applied_force(delta)
@@ -113,14 +115,16 @@ func _apply_brake(delta: float) -> void:
 		self.velocity = min(self.velocity + self.brake_force * self.brake_power * delta, 0)
 
 func _update_auto_stop_break() -> void:
-	if self._next_stop_distance <= self._breaking_distance:
+	var breaking_distance = self._get_breaking_distance()
+	var remaining_distance = self._next_stop_distance - self._get_covered_track_distance()
+	if remaining_distance <= breaking_distance:
 		self.applied_force = 0
 		self.target_force_percent = 0
 		self.brake_force = 1.5
 
-func _calc_breaking_distance() -> void:
+func _get_breaking_distance() -> float:
 	var time_to_stop = self.velocity / self.brake_power
-	self._breaking_distance = time_to_stop * self.velocity / 2.0
+	return time_to_stop * self.velocity / 2.0
 
 func _get_track_entry_dir(track) -> Track.Directions:
 	if self.front_wheel.direction == TrainWheel.Directions.TAILWARD and self.velocity >= 0:
@@ -129,10 +133,11 @@ func _get_track_entry_dir(track) -> Track.Directions:
 		return track.direction
 	return Track.Directions.TAIL
 
-func _get_initial_distance() -> float:
+# Returns the covered distance of the current track
+func _get_covered_track_distance() -> float:
 	if self.front_wheel.direction == TrainWheel.Directions.TAILWARD and self.velocity >= 0:
-		return -(self.front_wheel.progress_ratio) * self.front_wheel.current_track_length
-	return -(1.0-self.front_wheel.progress_ratio) * self.front_wheel.current_track_length
+		return (self.front_wheel.progress_ratio) * self.front_wheel.current_track_length
+	return (1.0-self.front_wheel.progress_ratio) * self.front_wheel.current_track_length
 
 func _get_track_end_dir(from_dir: Track.Directions, track) -> Track.Directions:
 	if track.is_in_group("track_switch"):
@@ -155,39 +160,35 @@ func _get_track_length(from_dir: Track.Directions, track) -> float:
 		return track_switch.left_track.curve.get_baked_length()
 	return track.curve.get_baked_length()
 
-func _is_stopping_track(distance: float, track) -> bool:
-	if !track.is_in_group("train_station_track"):
-		return false
-	
-	if self.velocity < 0:
-		distance -= track.curve.get_baked_length()
-	self._next_stop_distance = distance
-	return true
+func _is_stopping_track(track) -> bool:
+	if track.is_in_group("train_station_track"):
+		return true
+	if track.is_in_group("track_signal_stop"):
+		# TODO
+		return true
+	return false
 
-func _find_distance_to_next_stop() -> void:
+# Calculates distance to next stop w/ current track length
+func _calc_distance_to_next_stop() -> void:
 	var current_track = self.front_wheel.current_track
 	if !current_track:
 		return
-	
-	self._calc_breaking_distance()	
+	var distance = 0.0
+	var to_dir = Track.Directions.HEAD
 	
 	if current_track.owner.is_in_group("track_switch"):
 		current_track = current_track.owner
 	
-	var distance = self._get_initial_distance()
-	var to_dir = Track.Directions.HEAD	
 	var from_dir = self._get_track_entry_dir(current_track)
 	
 	for i in range(LOOK_AHEAD_TRACKS):
 		to_dir = self._get_track_end_dir(from_dir, current_track)
 		distance += self._get_track_length(from_dir, current_track)
-		
-		if self._is_stopping_track(distance, current_track):
+		if self._is_stopping_track(current_track):
+			self._next_stop_distance = distance
 			return
-		
 		from_dir = current_track.neighboring_tracks[to_dir][0]
 		current_track = current_track.neighboring_tracks[to_dir][1]
-	return
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("train_station"): return
