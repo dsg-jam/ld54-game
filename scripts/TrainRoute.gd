@@ -16,6 +16,7 @@ func _ready() -> void:
 		return
 
 	self.train.entered_station.connect(self._on_train_entered_station)
+	self.train.left_station.connect(self._on_train_left_station)
 	for stop in self._stops:
 		assert(stop.station.is_node_ready())
 		stop.station.timeout.connect(self._on_station_timeout)
@@ -28,6 +29,11 @@ func _on_train_entered_station(incoming_train: TrainEngine, station: TrainStatio
 	if incoming_train != self.train || station != stop.station:
 		return
 	stop.station.reset()
+
+func _on_train_left_station(leaving_train: TrainEngine, station: TrainStation) -> void:
+	var stop: TrainRouteStop = self._stops[self._stop_idx]
+	if leaving_train != self.train || station != stop.station:
+		return
 	self._choose_available_stop(true)
 	self._activate_stop()
 

@@ -33,3 +33,4 @@ shape = SubResource("RectangleShape2D_fju05")
 texture = ExtResource("3_5emls")
 
 [connection signal="area_entered" from="Body/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Body/Area2D" to="." method="_on_area_2d_area_exited"]

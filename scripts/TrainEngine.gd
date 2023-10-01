@@ -3,6 +3,7 @@ class_name TrainEngine extends TrainVehicle
 
 signal train_info(info: Dictionary)
 signal entered_station(train: TrainEngine, station: TrainStation)
+signal left_station(train: TrainEngine, station: TrainStation)
 
 @export var color: Color
 @export var max_force: float = 1000
@@ -226,3 +227,7 @@ func _on_track_entered() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if !area.is_in_group("train_station"): return
 	self.entered_station.emit(self, area)
+
+func _on_area_2d_area_exited(area: Area2D) -> void:
+	if !area.is_in_group("train_station"): return
+	self.left_station.emit(self, area)
