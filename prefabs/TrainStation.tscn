@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b45ccffmet4ol" path="res://assets/icon.svg" id="4_ux61d"]
 [ext_resource type="Texture2D" uid="uid://c2udkkfuwbis0" path="res://assets/warn.png" id="5_evrpx"]
 
-[sub_resource type="Curve2D" id="Curve2D_ohbro"]
+[sub_resource type="Curve2D" id="Curve2D_eymkl"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 300, 0)
@@ -15,6 +15,21 @@ point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fhstt"]
 size = Vector2(300, 85)
+
+[sub_resource type="Animation" id="Animation_uyf78"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_643oj"]
 resource_name = "blink"
@@ -32,21 +47,6 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_uyf78"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nt1vv"]
 _data = {
 "RESET": SubResource("Animation_uyf78"),
@@ -57,8 +57,8 @@ _data = {
 script = ExtResource("1_g3ngn")
 metadata/_edit_lock_ = true
 
-[node name="Track" parent="." instance=ExtResource("1_pb151")]
-curve = SubResource("Curve2D_ohbro")
+[node name="Track" parent="." groups=["train_station_track"] instance=ExtResource("1_pb151")]
+curve = SubResource("Curve2D_eymkl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(150, 0)

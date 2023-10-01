@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bk10alqlk6ie2" path="res://assets/switch_left.png" id="4_xc4rb"]
 [ext_resource type="Texture2D" uid="uid://cfj6l27udpvr7" path="res://assets/arrow.png" id="6_nflxo"]
 
-[sub_resource type="Curve2D" id="Curve2D_pk38d"]
+[sub_resource type="Curve2D" id="Curve2D_mdhjd"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -24.017, 16.005, 24.017, -16.005, 64, -16, 0, 0, 0, 0, 128, -32)
@@ -32,7 +32,7 @@ instance_count = 13
 mesh = SubResource("ArrayMesh_umy7o")
 buffer = PackedFloat32Array(0.99808, 0.0619333, 0, 4.99647, -0.0619333, 0.99808, 0, -0.176236, 0.992584, 0.121559, 0, 14.9636, -0.121559, 0.992584, 0, -0.961502, 0.98391, 0.178663, 0, 24.872, -0.178663, 0.98391, 0, -2.30135, 0.969346, 0.2457, 0, 34.6786, -0.2457, 0.969346, 0, -4.24865, 0.94496, 0.327186, 0, 44.3185, -0.327186, 0.94496, 0, -6.89664, 0.901405, 0.432977, 0, 53.6711, -0.432977, 0.901405, 0, -10.4225, 0.847395, 0.530963, 0, 62.5187, -0.530963, 0.847395, 0, -15.0622, 0.910454, 0.413611, 0, 71.1488, -0.413611, 0.910454, 0, -20.1015, 0.949217, 0.314623, 0, 80.3623, -0.314623, 0.949217, 0, -23.9742, 0.971893, 0.235421, 0, 89.9171, -0.235421, 0.971893, 0, -26.9124, 0.985566, 0.169291, 0, 99.6749, -0.169291, 0.985566, 0, -29.0903, 0.993711, 0.111974, 0, 109.553, -0.111974, 0.993711, 0, -30.6376, 0.99852, 0.054383, 0, 119.503, -0.054383, 0.99852, 0, -31.6189)
 
-[sub_resource type="Curve2D" id="Curve2D_41laa"]
+[sub_resource type="Curve2D" id="Curve2D_7patr"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, -23.902, -16.064, 23.902, 16.064, 64, 16, 0, 0, 0, 0, 128, 32)
@@ -49,11 +49,11 @@ buffer = PackedFloat32Array(0.998161, -0.0606213, 0, 4.9967, 0.0606213, 0.998161
 CheckButton/icons/checked = ExtResource("3_nu1m2")
 CheckButton/icons/unchecked = ExtResource("4_xc4rb")
 
-[node name="TrackSwitch" type="Node2D"]
+[node name="TrackSwitch" type="Node2D" groups=["track_switch"]]
 script = ExtResource("1_ucgph")
 
-[node name="LeftTrack" parent="." instance=ExtResource("2_e5vto")]
-curve = SubResource("Curve2D_pk38d")
+[node name="LeftTrack" parent="." groups=["left_track"] instance=ExtResource("2_e5vto")]
+curve = SubResource("Curve2D_mdhjd")
 
 [node name="MultiMeshInstance2D" parent="LeftTrack" index="1"]
 multimesh = SubResource("MultiMesh_m32f0")
@@ -86,9 +86,9 @@ progress = 66.7532
 [node name="Sprite" type="Sprite2D" parent="LeftTrack/Pointer"]
 texture = ExtResource("6_nflxo")
 
-[node name="RightTrack" parent="." instance=ExtResource("2_e5vto")]
+[node name="RightTrack" parent="." groups=["right_track"] instance=ExtResource("2_e5vto")]
 z_index = 1
-curve = SubResource("Curve2D_41laa")
+curve = SubResource("Curve2D_7patr")
 
 [node name="MultiMeshInstance2D" parent="RightTrack" index="1"]
 multimesh = SubResource("MultiMesh_pixd6")

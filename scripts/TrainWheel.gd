@@ -7,6 +7,7 @@ extends PathFollow2D
 signal at_track_head(wheel: TrainWheel, extra: float, is_forward: bool)
 signal at_track_tail(wheel: TrainWheel, extra: float, is_forward: bool)
 signal moved(distance: float, leader_offset: float, leader_direction: Directions, leader_track: Track, leader_track_length: float)
+signal new_track_entered()
 
 enum Directions {
 	HEADWARD,
@@ -34,11 +35,13 @@ func set_track(track: Path2D) -> void:
 func head_to_tail() -> void:
 	self.direction = Directions.TAILWARD
 	self.sprite.flip_v = false
+	new_track_entered.emit()
 
 # Set the direction of "forward travel" along the track to be towards the head
 func tail_to_head() -> void:
 	self.direction = Directions.HEADWARD
 	self.sprite.flip_v = true
+	new_track_entered.emit()
 
 # Place this wheel a specific distance behind another one
 func follow(leader: TrainWheel, distance: float) -> void:
