@@ -9,6 +9,7 @@ signal timeout(station: TrainStation)
 @onready var _warn_indicator: Sprite2D = $Warn
 @onready var _anim_player: AnimationPlayer = $AnimationPlayer
 @onready var _station_sprite: Sprite2D = $Station
+@onready var _reset_color: Color = self._station_sprite.modulate
 
 var available: bool
 
@@ -36,6 +37,7 @@ func reset() -> void:
 	self._timer.stop()
 	self._warn_indicator.set_visible(false)
 	self._progress.set_visible(false)
+	self.set_color(self._reset_color)
 	self.available = true
 
 func _on_timer_timeout() -> void:
