@@ -17,6 +17,12 @@ signal entered_station(station: TrainStation)
 const LOOK_AHEAD_TRACKS: int = 10
 const DELTA_DISTANCE: float = 0.001
 
+enum TrainState {
+	Conducting,
+	Braking
+}
+
+var _state: TrainState = TrainState.Conducting
 var _next_stop_distance: float = INF
 var _is_positive_velocity: bool = true
 
@@ -42,8 +48,9 @@ func change_towed_mass(mass_delta: float) -> void:
 # Emit a signal to update the HUD
 func _process(delta: float) -> void:
 	super._process(delta)
-	self._update_throttle(delta)
+	self._update_throttle()
 	self._update_brake(delta)
+	self._update_auto_stop_break()
 	self.train_info.emit({
 		"throttle": target_force_percent,
 		"force_applied": applied_force,
@@ -57,27 +64,22 @@ func _process(delta: float) -> void:
 
 # Apply forces
 func _physics_process(delta: float) -> void:
-	self._update_auto_stop_break()
-	
 	self._updated_applied_force(delta)
 	if self.velocity != 0 or self.applied_force != 0:
 		self._move_with_friction(delta)
+	else:
+		self._state = TrainState.Conducting
 
 # Set the "throttle lever" position
-func _update_throttle(delta: float) -> void:
-	if Input.is_action_pressed("speed_up"):
-		self.target_force_percent = min(self.target_force_percent + delta / 10, 1)
-	elif Input.is_action_pressed("slow_down"):
-		self.target_force_percent = max(self.target_force_percent - delta / 10, -1)
-	elif Input.is_action_pressed("cut_throttle"):
+func _update_throttle() -> void:
+	if self._state == TrainState.Conducting:
+		self.target_force_percent = 1
+	else:
 		self.target_force_percent = 0
 
 # Set the percent of the total force with which the brake is being applied
 func _update_brake(delta: float) -> void:
-	if Input.is_action_pressed("brake"):
-		self.brake_force = clamp(self.brake_force + self.brake_application_speed * delta, 0, 1)
-	elif self.brake_force > 0:
-		self.brake_force = clamp(self.brake_force - self.brake_application_speed * delta, 0, 1)
+	self.brake_force = clamp(self.brake_force - self.brake_application_speed * delta, 0, 1)
 
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
@@ -130,8 +132,8 @@ func _update_auto_stop_break() -> void:
 	if remaining_distance <= DELTA_DISTANCE:
 		return
 	if remaining_distance <= breaking_distance:
+		self._state = TrainState.Braking
 		self.applied_force = 0
-		self.target_force_percent = 0
 		self.brake_force = 1.5
 
 func _get_breaking_distance() -> float:
