@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dpgkkb4iqrw5b" path="res://prefabs/TrainVehicle.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/TrainEngine.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://oxwe7ng3lr2u" path="res://assets/train_engine.png" id="3_unrkn"]
+[ext_resource type="Texture2D" uid="uid://d1lqotfksrq17" path="res://assets/train_engine_desaturated.png" id="3_5emls"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fju05"]
 resource_local_to_scene = true
@@ -10,6 +10,7 @@ size = Vector2(88, 20)
 
 [node name="TrainEngine" groups=["train_engines"] instance=ExtResource("1")]
 script = ExtResource("2")
+color = Color(1, 1, 1, 1)
 max_force = 1000.0
 gravity = 9.8
 friction_coefficient = 0.1
@@ -30,6 +31,6 @@ monitorable = false
 shape = SubResource("RectangleShape2D_fju05")
 
 [node name="TextureRect" parent="Body/Node2D2" index="0"]
-texture = ExtResource("3_unrkn")
+texture = ExtResource("3_5emls")
 
 [connection signal="area_entered" from="Body/Area2D" to="." method="_on_area_2d_area_entered"]

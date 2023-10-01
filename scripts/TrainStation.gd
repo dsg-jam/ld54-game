@@ -8,6 +8,8 @@ signal timeout(station: TrainStation)
 @onready var _timer: Timer = $Timer
 @onready var _warn_indicator: Sprite2D = $Warn
 @onready var _anim_player: AnimationPlayer = $AnimationPlayer
+@onready var _station_sprite: Sprite2D = $Station
+@onready var _reset_color: Color = self._station_sprite.modulate
 
 var available: bool
 
@@ -22,6 +24,9 @@ func _process(_delta: float) -> void:
 	self._progress.value = 100 * self._timer.time_left / self._timer.wait_time
 	self._warn_indicator.set_visible(self._timer.time_left < self.warn_threshold)
 
+func set_color(color: Color) -> void:
+	self._station_sprite.modulate = color
+
 func start_timer(delay: float) -> void:
 	assert(delay > 0)
 	self.available = false
@@ -32,6 +37,7 @@ func reset() -> void:
 	self._timer.stop()
 	self._warn_indicator.set_visible(false)
 	self._progress.set_visible(false)
+	self.set_color(self._reset_color)
 	self.available = true
 
 func _on_timer_timeout() -> void:

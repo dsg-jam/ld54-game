@@ -44,3 +44,4 @@ func _choose_next_stop() -> void:
 func _activate_stop() -> void:
 	var stop: TrainRouteStop = self._stops[self._stop_idx]
 	stop.station.start_timer(stop.delay)
+	stop.station.set_color(self.train.color)
