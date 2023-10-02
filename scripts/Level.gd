@@ -46,4 +46,6 @@ func _update_objective(route_idx: int) -> void:
 	var route := self._routes[route_idx]
 	var label := self._route_labels[route_idx]
 	var counter := self._objective_counters[route_idx]
-	label.text = "%s: %s/5" % [route.route_name, counter]
+
+func _on_restart_button_pressed() -> void:
+	self.get_tree().reload_current_scene()

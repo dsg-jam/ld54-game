@@ -61,6 +61,7 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="GameOver" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,3 +106,5 @@ text = "main menu"
 [node name="Button2" type="Button" parent="GameOver/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "restart level"
+
+[connection signal="pressed" from="GameOver/VBoxContainer/HBoxContainer/Button2" to="." method="_on_restart_button_pressed"]
