@@ -10,7 +10,7 @@ signal left_station(train: TrainEngine, station: TrainStation)
 @export var gravity: float = 9.8
 @export var brake_power: float = 50
 
-const SAFETY_STOP_MARGIN: float = 15.0
+const SAFETY_STOP_MARGIN: float = 50.0
 const LOOK_AHEAD_TRACKS: int = 10
 const DELTA_BRAKING_DISTANCE: float = 10.0
 
