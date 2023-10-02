@@ -21,7 +21,11 @@ func _ready() -> void:
 		push_warning("route with no stops")
 		return
 
+	var seen_stations := {}
 	for stop in self._stops:
+		if seen_stations.has(stop.station):
+			continue
+		seen_stations[stop.station] = null
 		assert(stop.station.is_node_ready())
 		stop.station.timeout.connect(self._on_station_timeout)
 
