@@ -25,6 +25,7 @@ enum TrainState {
 var _state: TrainState = TrainState.Conducting
 var _next_stop_distance: float = INF
 var _is_positive_velocity: bool = true
+var _is_braking: bool = false
 
 var friction_force: float
 var target_force_percent: float = 0
@@ -99,10 +100,9 @@ func _update_throttle() -> void:
 		self.target_force_percent = 1.0
 		self.brake_force = 0.0
 	else:
-		self.target_force_percent = 0
+		self.target_force_percent = 0.0
 		self.brake_force = 1.0
 		self.applied_force = 0.0
-		self.target_force_percent = 0.0
 
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
@@ -152,11 +152,9 @@ func _apply_brake(delta: float) -> void:
 func _update_auto_stop_break() -> void:
 	var braking_distance = self._get_braking_distance()
 	var remaining_distance = self._next_stop_distance - self._get_covered_track_distance()
-	if remaining_distance <= braking_distance:
+	if !self._is_braking and (remaining_distance <= braking_distance):
+		self._is_braking = true
 		self._state = TrainState.Braking
-		return
-	if braking_distance >= DELTA_BRAKING_DISTANCE:
-		self._state = TrainState.Conducting
 
 func _get_braking_distance() -> float:
 	var time_to_stop = self.velocity / self.brake_power
@@ -238,6 +236,7 @@ func _calc_distance_to_next_stop() -> void:
 		if self._is_stopping_track(to_dir, current_track):
 			if self.velocity < 0:
 				distance -= current_track.curve.get_baked_length()
+			self._is_braking = false
 			self._next_stop_distance = distance
 			return
 		from_dir = current_track.neighboring_tracks[to_dir][0]
