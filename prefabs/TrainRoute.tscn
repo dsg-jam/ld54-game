@@ -2,6 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/TrainRoute.gd" id="1_xh0bb"]
 
-[node name="TrainRoute" type="Node2D"]
+[node name="TrainRoute" type="Node2D" groups=["train_route"]]
 script = ExtResource("1_xh0bb")
 metadata/_edit_lock_ = true

@@ -2,6 +2,7 @@
 class_name TrainVehicle extends Node2D
 
 signal towed_mass_changed(mass_delta: float)
+signal crashed() # emitted by wheel!
 
 @export var wheel_distance: float = 58
 @export var follow_distance: float = 26
@@ -29,6 +30,7 @@ func add_to_track(track: Path2D, offset: float = 1) -> void:
 	self.back_wheel.follow(self.front_wheel, self.wheel_distance)
 	self.global_position = self.front_wheel.global_position
 
+# must be called before additional cars are added!
 func set_color(color: Color) -> void:
 	self._body_texture_rect.modulate = color
 
