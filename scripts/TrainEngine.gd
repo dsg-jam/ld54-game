@@ -8,12 +8,9 @@ signal left_station(train: TrainEngine, station: TrainStation)
 @export var color: Color
 @export var max_force: float = 1000
 @export var gravity: float = 9.8
-@export var friction_coefficient: float = 0.1
-@export var rolling_resistance_coefficient: float = 0.005
-@export var air_resistance_coefficient: float = 0.10
-@export var air_density: float = 1.0
 @export var brake_power: float = 50
 
+const SAFETY_STOP_MARGIN: float = 15.0
 const LOOK_AHEAD_TRACKS: int = 10
 const DELTA_BRAKING_DISTANCE: float = 10.0
 
@@ -37,7 +34,6 @@ func _ready() -> void:
 	self.set_color(self.color)
 	super._ready()
 	self.front_wheel.new_track_entered.connect(self._on_track_entered)
-	self._update_frictions()
 
 func set_color(new_color: Color) -> void:
 	self.color = new_color
@@ -49,7 +45,6 @@ func connect_tracks_controller(tracks_controller: TracksController) -> void:
 # Update the friction forces that depend on mass when the towed mass changes
 func change_towed_mass(mass_delta: float) -> void:
 	super.change_towed_mass(mass_delta)
-	self._update_frictions()
 
 # Emit a signal to update the HUD
 func _process(delta: float) -> void:
@@ -64,7 +59,6 @@ func _process(delta: float) -> void:
 		"total_mass": total_mass,
 		"velocity": velocity,
 		"friction": friction_force,
-		"drag": self._drag_force(),
 	})
 
 # Apply forces
@@ -106,7 +100,7 @@ func _update_throttle() -> void:
 
 # Move the front wheel by the applied force, minus friction forces
 func _move_with_friction(delta: float) -> void:
-	var resistance := self.friction_force + self._drag_force()
+	var resistance := 0
 	if self.applied_force == 0 && abs(self.velocity) < resistance / self.total_mass * delta:
 		self.velocity = 0
 	else:
@@ -132,15 +126,6 @@ func _updated_applied_force(delta: float) -> void:
 	self.applied_force = lerp(float(self.applied_force), float(self.max_force * self.target_force_percent), delta)
 	if abs(self.applied_force) < 0.1: self.applied_force = 0
 
-# Recalculate the velocity-independent friction forces for the current mass
-func _update_frictions() -> void:
-	self.friction_force = self.friction_coefficient * self.total_mass * self.gravity
-	self.friction_force += self.rolling_resistance_coefficient * self.total_mass * self.gravity
-
-# The air resistance force
-func _drag_force() -> float:
-	return (self.air_resistance_coefficient * self.air_density * (pow(self.velocity,2)/2))
-
 # Reduce the velocity based on applied brake power
 func _apply_brake(delta: float) -> void:
 	if self.velocity == 0: return
@@ -150,11 +135,14 @@ func _apply_brake(delta: float) -> void:
 		self.velocity = min(self.velocity + self.brake_force * self.brake_power * delta, 0)
 
 func _update_auto_stop_break() -> void:
-	var braking_distance = self._get_braking_distance()
+	var braking_distance = self._get_braking_distance() + SAFETY_STOP_MARGIN
 	var remaining_distance = self._next_stop_distance - self._get_covered_track_distance()
 	if !self._is_braking and (remaining_distance <= braking_distance):
 		self._is_braking = true
 		self._state = TrainState.Braking
+	if self._is_braking and remaining_distance > braking_distance and braking_distance > DELTA_BRAKING_DISTANCE:
+		self._state = TrainState.Conducting
+		self._is_braking = false
 
 func _get_braking_distance() -> float:
 	var time_to_stop = self.velocity / self.brake_power
@@ -236,7 +224,6 @@ func _calc_distance_to_next_stop() -> void:
 		if self._is_stopping_track(to_dir, current_track):
 			if self.velocity < 0:
 				distance -= current_track.curve.get_baked_length()
-			self._is_braking = false
 			self._next_stop_distance = distance
 			return
 		from_dir = current_track.neighboring_tracks[to_dir][0]
