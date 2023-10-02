@@ -1,7 +1,7 @@
 extends Control
 
 @export var next_level: PackedScene
-@export var main_menu: PackedScene
+@export_file("*.tscn") var main_menu: String
 
 @onready var _time_display: Label = $Control/Time
 @onready var _objective_container: Container = $Control/VBoxContainer
@@ -74,4 +74,5 @@ func _on_next_button_pressed() -> void:
 	self.get_tree().change_scene_to_packed(self.next_level)
 
 func _on_main_menu_button_pressed() -> void:
-	self.get_tree().change_scene_to_packed(self.main_menu)
+	var scene := load(self.main_menu)
+	self.get_tree().change_scene_to_packed(scene)

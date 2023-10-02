@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cq6ckyed0ps4t"]
+[gd_scene load_steps=4 format=3 uid="uid://cq6ckyed0ps4t"]
 
 [ext_resource type="Theme" uid="uid://dsugnc7jkb7q5" path="res://themes/main.tres" id="1_njgw4"]
 [ext_resource type="Script" path="res://scripts/Level.gd" id="2_rrx3j"]
-[ext_resource type="PackedScene" uid="uid://6a8n0e0kkslr" path="res://scenes/MainMenu.tscn" id="3_j3vag"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge2tl"]
 bg_color = Color(0.0745098, 0.0745098, 0.0745098, 0.921569)
@@ -17,7 +16,6 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_njgw4")
 script = ExtResource("2_rrx3j")
-main_menu = ExtResource("3_j3vag")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
