@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://iw1demrx5nvt"]
+
+[ext_resource type="Texture2D" uid="uid://c2bku7ypsu0q3" path="res://assets/red_bulb.png" id="1_l1i5j"]
+[ext_resource type="Texture2D" uid="uid://dscmmkun43x73" path="res://assets/green_bulb.png" id="2_rqf3p"]
+
+[sub_resource type="Theme" id="Theme_3hp74"]
+CheckButton/icons/checked = ExtResource("1_l1i5j")
+CheckButton/icons/unchecked = ExtResource("2_rqf3p")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ypl7"]
+
+[node name="SignalButton" type="CheckButton"]
+offset_right = 524.0
+offset_bottom = 520.0
+rotation = -1.5708
+scale = Vector2(0.05, 0.05)
+theme = SubResource("Theme_3hp74")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ypl7")
+keep_pressed_outside = true
+shortcut_in_tooltip = false
+metadata/_edit_use_anchors_ = true

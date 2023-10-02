@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgg0iicpep7b2"]
+
+[ext_resource type="Script" path="res://scripts/Track.gd" id="1_avuhy"]
+[ext_resource type="Texture2D" uid="uid://dyk30b1nt2gvq" path="res://assets/crosstie.png" id="2_58l1w"]
+[ext_resource type="PackedScene" uid="uid://btfdanletw1gi" path="res://prefabs/TrackJunction.tscn" id="3_2qf6x"]
+[ext_resource type="PackedScene" uid="uid://iw1demrx5nvt" path="res://prefabs/SignalButton.tscn" id="4_nn4g1"]
+[ext_resource type="Texture2D" uid="uid://dlgfnj8p01ym4" path="res://assets/track.png" id="5_dv415"]
+
+[sub_resource type="Curve2D" id="Curve2D_asyaa"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -8, 0, 0, 0, 0, 0, 0, 0, -40.059, -39.9231, 40.059, 39.9231, 88, 40, 0, 0, 0, 0, 128, 128, 0, 0, 0, 0, 128, 136)
+}
+point_count = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hmeh0"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_nb77j"]
+resource_local_to_scene = true
+instance_count = 21
+mesh = SubResource("ArrayMesh_hmeh0")
+buffer = PackedFloat32Array(0.999885, -0.0151967, 0, -3, 0.0151967, 0.999885, 0, 0, 0.991147, -0.132768, 0, 6.97848, 0.132768, 0.991147, 0, 0.514451, 0.97704, -0.213057, 0, 16.8568, 0.213057, 0.97704, 0, 2.04871, 0.9591, -0.283066, 0, 26.585, 0.283066, 0.9591, 0, 4.35361, 0.936153, -0.351594, 0, 36.1225, 0.351594, 0.936153, 0, 7.35176, 0.909868, -0.414897, 0, 45.4217, 0.414897, 0.909868, 0, 11.0232, 0.876674, -0.481086, 0, 54.4353, 0.481086, 0.876674, 0, 15.3479, 0.840182, -0.542304, 0, 63.113, 0.542304, 0.840182, 0, 20.312, 0.79881, -0.601584, 0, 71.4131, 0.601584, 0.79881, 0, 25.8841, 0.755106, -0.655603, 0, 79.2886, 0.655603, 0.755106, 0, 32.0419, 0.704947, -0.70926, 0, 86.711, 0.70926, 0.704947, 0, 38.739, 0.649121, -0.760685, 0, 93.6308, 0.760685, 0.649121, 0, 45.9549, 0.595399, -0.80343, 0, 99.9968, 0.80343, 0.595399, 0, 53.6636, 0.535589, -0.844479, 0, 105.802, 0.844479, 0.535589, 0, 61.8023, 0.471631, -0.881796, 0, 111.004, 0.881796, 0.471631, 0, 70.3398, 0.406769, -0.913531, 0, 115.554, 0.913531, 0.406769, 0, 79.242, 0.340047, -0.940408, 0, 119.464, 0.940408, 0.340047, 0, 88.4434, 0.272679, -0.962105, 0, 122.695, 0.962105, 0.272679, 0, 97.9044, 0.19998, -0.9798, 0, 125.244, 0.9798, 0.19998, 0, 107.572, 0.12099, -0.992654, 0, 127.039, 0.992654, 0.12099, 0, 117.406, 0.00455207, -0.99999, 0, 127.977, 0.99999, 0.00455207, 0, 127.356)
+
+[node name="Track" type="Path2D"]
+curve = SubResource("Curve2D_asyaa")
+script = ExtResource("1_avuhy")
+
+[node name="Crosstie" type="MeshInstance2D" parent="."]
+visible = false
+position = Vector2(-50, -50)
+mesh = SubResource("ArrayMesh_hmeh0")
+texture = ExtResource("2_58l1w")
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="."]
+z_index = 1
+multimesh = SubResource("MultiMesh_nb77j")
+texture = ExtResource("2_58l1w")
+
+[node name="HeadPoint" type="PathFollow2D" parent="."]
+position = Vector2(-8, 0)
+loop = false
+
+[node name="TrackJunction" parent="HeadPoint" instance=ExtResource("3_2qf6x")]
+parent = NodePath("../..")
+side = 2
+
+[node name="SignalButton" parent="HeadPoint" instance=ExtResource("4_nn4g1")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -15.0
+offset_bottom = 505.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TailPoint" type="PathFollow2D" parent="."]
+position = Vector2(128, 136)
+rotation = 1.5708
+progress = 213.645
+loop = false
+
+[node name="TrackJunction" parent="TailPoint" instance=ExtResource("3_2qf6x")]
+parent = NodePath("../..")
+side = 3
+
+[node name="SignalButton" parent="TailPoint" instance=ExtResource("4_nn4g1")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 15.0
+offset_bottom = 535.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TrackLine" type="Line2D" parent="."]
+z_index = 2
+points = PackedVector2Array(-8, 0, -4, 0, 0, 0, 2.1382, 0.0812788, 4.6883, 0.270261, 8.1167, 0.635813, 12.3416, 1.23619, 14.7272, 1.64264, 17.2813, 2.12965, 19.9936, 2.70449, 22.854, 3.37445, 25.8521, 4.1468, 28.9779, 5.02883, 32.221, 6.02783, 35.5712, 7.15107, 39.0183, 8.40584, 42.5522, 9.79942, 46.1625, 11.3391, 49.8391, 13.0321, 53.5717, 14.8858, 57.3501, 16.9074, 61.1641, 19.1043, 65.0035, 21.4836, 68.858, 24.0528, 72.7174, 26.819, 76.5716, 29.7895, 80.4102, 32.9717, 82.3205, 34.6444, 84.2231, 36.3727, 86.1167, 38.1576, 88, 40, 89.8485, 41.8772, 91.6392, 43.765, 93.373, 45.6621, 95.0507, 47.5674, 98.2419, 51.397, 101.22, 55.2435, 103.993, 59.0967, 106.567, 62.9461, 108.95, 66.7815, 111.15, 70.5926, 113.173, 74.3691, 115.028, 78.1007, 116.721, 81.7771, 118.26, 85.3881, 119.653, 88.9233, 120.905, 92.3724, 122.026, 95.7251, 123.022, 98.9712, 123.901, 102.1, 124.669, 105.102, 125.335, 107.966, 125.906, 110.683, 126.389, 113.241, 126.791, 115.631, 127.383, 119.864, 127.741, 123.3, 127.924, 125.856, 128, 128, 128, 132, 128, 136)
+width = 20.0
+texture = ExtResource("5_dv415")
+texture_mode = 1
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="HeadPoint/SignalButton" to="." method="_on_head_signal_button_pressed" flags=18]
+[connection signal="pressed" from="TailPoint/SignalButton" to="." method="_on_tail_signal_button_pressed" flags=18]
