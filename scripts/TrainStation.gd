@@ -40,7 +40,8 @@ func reset() -> void:
 	self.available = true
 
 func reset_color() -> void:
-	self.set_color(self._reset_color)
+	if self.available:
+		self.set_color(self._reset_color)
 
 func _on_timer_timeout() -> void:
 	self.timeout.emit(self)
