@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://dsugnc7jkb7q5" path="res://themes/main.tres" id="1_05twq"]
 [ext_resource type="Script" path="res://scripts/MainMenu.gd" id="2_6abnn"]
 [ext_resource type="Texture2D" uid="uid://c2udkkfuwbis0" path="res://assets/warn.png" id="2_ca7mh"]
-[ext_resource type="PackedScene" uid="uid://bhjkcskfwdbug" path="res://scenes/Level1.tscn" id="3_nclby"]
+[ext_resource type="PackedScene" uid="uid://f00y8rjii1h1" path="res://scenes/Level1.tscn" id="3_nclby"]
 
 [node name="MainMenu" type="CenterContainer"]
 anchors_preset = 15
