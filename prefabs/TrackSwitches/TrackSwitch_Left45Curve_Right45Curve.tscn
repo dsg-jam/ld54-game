@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3 uid="uid://dv0rp1nuh5ves"]
+
+[ext_resource type="PackedScene" uid="uid://bm5dq3lcopsvl" path="res://prefabs/TrackSwitch.tscn" id="1_ngsqx"]
+
+[sub_resource type="Curve2D" id="Curve2D_81xyj"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 8, 0, -15.9099, 15.5564, 15.9099, -15.5564, 56, -16, 0, 0, 0, 0, 80, -40, 0, 0, 0, 0, 88, -48)
+}
+point_count = 5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_umy7o"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-1.5, -13.5, 0, 3.00001, 27, 0),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 33558545,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0),
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 192, 63, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 65, 0, 0, 192, 191, 0, 0, 88, 193, 0, 0, 192, 63, 0, 0, 88, 193)
+}]
+
+[sub_resource type="MultiMesh" id="MultiMesh_55w7u"]
+resource_local_to_scene = true
+instance_count = 10
+mesh = SubResource("ArrayMesh_umy7o")
+buffer = PackedFloat32Array(0.999839, 0.017918, 0, 5, -0.017918, 0.999839, 0, 7.80619e-13, 0.992192, 0.124719, 0, 14.9817, -0.124719, 0.992192, 0, -0.483443, 0.977357, 0.211598, 0, 24.87, -0.211598, 0.977357, 0, -1.94847, 0.945591, 0.325357, 0, 34.5727, -0.325357, 0.945591, 0, -4.34477, 0.884774, 0.46602, 0, 43.8991, -0.46602, 0.884774, 0, -7.92321, 0.758262, 0.65195, 0, 52.485, -0.65195, 0.758262, 0, -13.0107, 0.712023, 0.702156, 0, 59.8432, -0.702156, 0.712023, 0, -19.7698, 0.707563, 0.70665, 0, 66.9529, -0.70665, 0.707563, 0, -26.802, 0.701098, 0.713065, 0, 74.0144, -0.713065, 0.701098, 0, -33.8826, 0.707107, 0.707106, 0, 81.0192, -0.707106, 0.707107, 0, -41.0192)
+
+[sub_resource type="Curve2D" id="Curve2D_jf8fx"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 0, 0, 0, 0, 8, 0, -15.9491, -15.9704, 15.9491, 15.9704, 56, 16, 0, 0, 0, 0, 80, 40, 0, 0, 0, 0, 88, 48)
+}
+point_count = 5
+
+[sub_resource type="MultiMesh" id="MultiMesh_n0m24"]
+resource_local_to_scene = true
+instance_count = 10
+mesh = SubResource("ArrayMesh_umy7o")
+buffer = PackedFloat32Array(0.999912, -0.0132958, 0, 5, 0.0132958, 0.999912, 0, 7.80619e-13, 0.993157, -0.116789, 0, 14.9862, 0.116789, 0.993157, 0, 0.410031, 0.978234, -0.207504, 0, 24.8843, 0.207504, 0.978234, 0, 1.80522, 0.945319, -0.326147, 0, 34.5931, 0.326147, 0.945319, 0, 4.1747, 0.88189, -0.471456, 0, 43.911, 0.471456, 0.88189, 0, 7.77285, 0.752086, -0.659065, 0, 52.4581, 0.659065, 0.752086, 0, 12.9232, 0.706809, -0.707405, 0, 59.7496, 0.707405, 0.706809, 0, 19.7539, 0.707076, -0.707138, 0, 66.8183, 0.707138, 0.707076, 0, 26.8274, 0.707461, -0.706752, 0, 73.8899, 0.706752, 0.707461, 0, 33.8979, 0.707107, -0.707107, 0, 80.965, 0.707107, 0.707107, 0, 40.965)
+
+[node name="TrackSwitch" instance=ExtResource("1_ngsqx")]
+
+[node name="LeftTrack" parent="." index="0"]
+curve = SubResource("Curve2D_81xyj")
+
+[node name="MultiMeshInstance2D" parent="LeftTrack" index="1"]
+multimesh = SubResource("MultiMesh_55w7u")
+
+[node name="HeadPoint" parent="LeftTrack" index="2"]
+rotation = -2.60206e-13
+
+[node name="TailPoint" parent="LeftTrack" index="3"]
+position = Vector2(88, -48)
+rotation = -0.785398
+progress = 104.872
+
+[node name="TrackLine" parent="LeftTrack" index="4"]
+points = PackedVector2Array(2.08165e-12, 2.08165e-12, 4, 1.04082e-12, 8, 0, 9.40995, -0.0494466, 13.2627, -0.312388, 15.9283, -0.577639, 18.9925, -0.960728, 22.3846, -1.48314, 26.0338, -2.16637, 29.8694, -3.0319, 33.8208, -4.10121, 37.8173, -5.39581, 41.788, -6.93716, 45.6624, -8.74677, 49.3696, -10.8461, 52.8391, -13.2567, 56, -16, 58.8914, -18.8331, 61.5991, -21.4976, 64.1228, -23.9915, 66.462, -26.3128, 68.6163, -28.4597, 70.5854, -30.43, 73.9662, -33.8336, 76.6012, -36.508, 78.4873, -38.4376, 80, -40, 81.25, -41.25, 84, -44, 86.75, -46.75, 88, -48)
+
+[node name="Pointer" parent="LeftTrack" index="5"]
+position = Vector2(50.4061, -11.515)
+progress = 52.4362
+
+[node name="RightTrack" parent="." index="1"]
+curve = SubResource("Curve2D_jf8fx")
+
+[node name="MultiMeshInstance2D" parent="RightTrack" index="1"]
+multimesh = SubResource("MultiMesh_n0m24")
+
+[node name="HeadPoint" parent="RightTrack" index="2"]
+rotation = -2.60206e-13
+
+[node name="TailPoint" parent="RightTrack" index="3"]
+position = Vector2(88, 48)
+rotation = 0.785398
+progress = 104.949
+
+[node name="TrackLine" parent="RightTrack" index="4"]
+points = PackedVector2Array(2.08165e-12, 2.08165e-12, 4, 1.04082e-12, 8, 0, 9.40834, 0.0324641, 13.2572, 0.254163, 15.9204, 0.494243, 18.9822, 0.851555, 22.3719, 1.3494, 26.0191, 2.0111, 29.8532, 2.85995, 33.8036, 3.91926, 37.7999, 5.21234, 41.7715, 6.76249, 45.6478, 8.59302, 49.3584, 10.7272, 52.8326, 13.1885, 56, 16, 58.8979, 18.9014, 61.6104, 21.6165, 64.1373, 24.1453, 66.4785, 26.4875, 68.6337, 28.6431, 70.6026, 30.612, 73.9809, 33.9889, 76.6116, 36.6172, 78.4928, 38.4958, 80, 40, 81.25, 41.25, 84, 44, 86.75, 46.75, 88, 48)
+
+[node name="Pointer" parent="RightTrack" index="5"]
+position = Vector2(50.4243, 11.4282)
+rotation = 0.597223
+progress = 52.4745
+
+[editable path="LeftTrack"]
+[editable path="RightTrack"]
