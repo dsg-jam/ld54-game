@@ -16,6 +16,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_njgw4")
 script = ExtResource("2_rrx3j")
+main_menu = "res://scenes/MainMenu.tscn"
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
