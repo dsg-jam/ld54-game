@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://f00y8rjii1h1"]
+[gd_scene load_steps=29 format=3 uid="uid://f00y8rjii1h1"]
 
 [ext_resource type="Script" path="res://scripts/TracksController.gd" id="2_ai76e"]
 [ext_resource type="PackedScene" uid="uid://cq6ckyed0ps4t" path="res://prefabs/Level.tscn" id="2_l6rrh"]
+[ext_resource type="PackedScene" uid="uid://bhjkcskfwdbug" path="res://scenes/Level2.tscn" id="2_xxw16"]
 [ext_resource type="PackedScene" uid="uid://cgg0iicpep7b2" path="res://prefabs/Tracks/Track_90_Curve_Medium.tscn" id="3_1radm"]
 [ext_resource type="PackedScene" uid="uid://d1xy67euifbh6" path="res://prefabs/Track.tscn" id="3_ud27o"]
 [ext_resource type="PackedScene" uid="uid://bnivg4uv1nogr" path="res://prefabs/Tracks/Track_45_Curve.tscn" id="5_2sq2s"]
@@ -138,6 +139,7 @@ grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+next_level = ExtResource("2_xxw16")
 
 [node name="Tracks" type="Node2D" parent="."]
 script = ExtResource("2_ai76e")

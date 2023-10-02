@@ -47,6 +47,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 167.0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 layout_mode = 2
@@ -59,8 +60,20 @@ layout_mode = 2
 [node name="Spacer" type="Control" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="GameOver" type="Panel" parent="."]
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="GameOver" type="Panel" parent="Overlay"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,7 +82,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ge2tl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOver"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Overlay/GameOver"]
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -81,27 +94,118 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="GameOver/VBoxContainer"]
+[node name="Label" type="Label" parent="Overlay/GameOver/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="GameOver/VBoxContainer"]
+[node name="Control" type="Control" parent="Overlay/GameOver/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GameOver/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Overlay/GameOver/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Button" type="Button" parent="GameOver/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="Overlay/GameOver/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "main menu"
 
-[node name="Button2" type="Button" parent="GameOver/VBoxContainer/HBoxContainer"]
+[node name="Button2" type="Button" parent="Overlay/GameOver/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "restart level"
+
+[node name="LevelComplete" type="Panel" parent="Overlay"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ge2tl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Overlay/LevelComplete"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -173.5
+offset_right = 173.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Overlay/LevelComplete/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "LEVEL COMPLETE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Overlay/LevelComplete/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Overlay/LevelComplete/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Button" type="Button" parent="Overlay/LevelComplete/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "next"
+
+[node name="GameComplete" type="Panel" parent="Overlay"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ge2tl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Overlay/GameComplete"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -173.5
+offset_right = 173.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Overlay/GameComplete/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "GAME COMPLETE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Overlay/GameComplete/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Overlay/GameComplete/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Button" type="Button" parent="Overlay/GameComplete/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "main menu"
+
+[connection signal="pressed" from="Overlay/GameOver/VBoxContainer/HBoxContainer/Button" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="Overlay/GameOver/VBoxContainer/HBoxContainer/Button2" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Overlay/LevelComplete/VBoxContainer/HBoxContainer/Button" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="Overlay/GameComplete/VBoxContainer/HBoxContainer/Button" to="." method="_on_main_menu_button_pressed"]

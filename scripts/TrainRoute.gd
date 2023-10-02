@@ -7,6 +7,7 @@ signal train_game_over(train: TrainEngine)
 @export var car_count: int = 1
 @export var color: Color
 @export var route_name: String
+@export var route_objective: int = 3
 @export var train_engine: PackedScene = load("res://prefabs/TrainEngine.tscn")
 @export var train_vehicle: PackedScene = load("res://prefabs/TrainVehicle.tscn")
 
